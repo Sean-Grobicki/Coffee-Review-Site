@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,6 +7,12 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { createBottomTabNavigator, createStackNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import Search from './search';
+import Favourite from './favourite';
+import Settings from './settings';
+
 
 class Home extends Component
 {
@@ -17,8 +23,7 @@ class Home extends Component
 
   render()
   {
-    return (
-      <Text>Home</Text>
+    return (<Text>Home</Text>
     );
 
   }
@@ -26,3 +31,4 @@ class Home extends Component
 }
 
 export default Home;
+

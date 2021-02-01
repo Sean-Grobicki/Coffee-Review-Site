@@ -5,16 +5,18 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Login from './components/login';
+import Signup from './components/signup';
+import MainNav from './components/mainNav';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+
+
+const LoginStack = createStackNavigator();
 
 class App extends Component
 {
@@ -26,7 +28,13 @@ class App extends Component
   render()
   {
     return (
-      <Text>Entry</Text>
+      <NavigationContainer>
+        <LoginStack.Navigator>
+          <LoginStack.Screen name = "Login" component = {Login}/>
+          <LoginStack.Screen name = "Signup" component = {Signup}/>
+          <LoginStack.Screen options = {{headerShown: false}} name = "Home" component = {MainNav}/>
+        </LoginStack.Navigator>
+      </NavigationContainer>
     );
 
   }

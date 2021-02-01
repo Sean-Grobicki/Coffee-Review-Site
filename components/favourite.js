@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
+  Button,
   StatusBar,
 } from 'react-native';
 
@@ -18,7 +19,10 @@ class Favourite extends Component
   render()
   {
     return (
-      <Text>Favourite</Text>
+      <View>
+        <Text>Favourite</Text>
+        <Button title = "Location" onPress = {() => this.props.navigation.navigate('Location')}></Button>
+      </View>
     );
 
   }
