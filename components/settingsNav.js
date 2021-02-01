@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -6,14 +7,14 @@ import {
     Text,
     StatusBar,
   } from 'react-native';
-  import { createStackNavigator } from '@react-navigation/bottom-tabs';
+  import { createStackNavigator } from '@react-navigation/stack';
   import Settings from './settings';
   import ChangeInfo from './changeInfo';
   
   const SettingsNav = createStackNavigator();
   
   
-  class SettingsNav extends Component
+  class SettingNav extends Component
   {
     constructor(props)
     {
@@ -26,9 +27,9 @@ import {
         <SettingsNav.Navigator>
             <SettingsNav.Screen name = "Settings" component = {Settings}/>
             <SettingsNav.Screen name = "ChangeInfo" component = {ChangeInfo}/>
-      </SettingsNav.Navigator>
+        </SettingsNav.Navigator>
       );
     }
   }
   
-  export default SettingsNav;
+  export default SettingNav;

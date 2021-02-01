@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './home';
 import Search from './search';
 import Favourite from './favourite';
-import Settings from './settings';
+import SettingNav from './settingsNav';
 
 const TabNavigation = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ class MainNav extends Component
             <TabNavigation.Screen name = "Home" component = {Home}/>
             <TabNavigation.Screen name = "Search" component = {Search}/>
             <TabNavigation.Screen name = "Favourite" component = {Favourite}/>
-            <TabNavigation.Screen name = "Settings" component = {Settings}/>
+            <TabNavigation.Screen name = "Settings" component = {SettingNav}/>
           </TabNavigation.Navigator>
     );
 
