@@ -38,7 +38,7 @@ class Signup extends ValidationComponent
       });
       if(this.isFormValid())
       {
-        return fetch("http://10.0.2.2:3333/user",
+        return fetch("http://10.0.2.2:3333/api/1.0.0/user",
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -49,13 +49,21 @@ class Signup extends ValidationComponent
             password: this.state.password,
           })
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          Alert.alert(responseJson);
-          //this.props.navigation.navigate('Login');
+        .then((response) => {
+          if(response.status == 201)
+          {
+            Alert.alert("Account Created");
+            this.props.navigation.navigate('Login')
+          }
+          else
+          {
+            Alert.alert("Unsuccessful Request");
+            console.log(response);
+          }
         })
+          
         .catch((error) => {
-          Alert.alert(error);
+          Alert.alert(error.message);
         });
      }
      else

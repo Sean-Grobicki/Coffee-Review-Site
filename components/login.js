@@ -6,10 +6,14 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Alert,
   StatusBar,
-  AsyncStorage,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const ID_KEY = '@id';
+const SESSION_KEY = '@sessionKey';
 
 class Login extends Component
 {
@@ -20,13 +24,28 @@ class Login extends Component
     {
       email: '',
       password: '',
-      info: '',
+      id: '',
+      session: '',
     };
   }
 
-  login()
+  async storeData()
   {
-    return fetch("http://10.0.2.2:3333/user/login",
+    try 
+    {
+        await AsyncStorage.setItem(ID_KEY,`${this.state.id}`);
+        await AsyncStorage.setItem(SESSION_KEY,`${this.state.session}`);
+        this.props.navigation.navigate('Home');
+    } 
+    catch (error) 
+    {
+      Alert.alert("Error Saving data",error.message);
+    }
+  }
+
+  async login()
+  {
+    return fetch("http://10.0.2.2:3333/api/1.0.0/user/login",
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -37,17 +56,13 @@ class Login extends Component
         })
         .then((response) => response.json())
         .then((responseJson) => {
-          Alert.alert(responseJson);
-          this.setState({info: responseJson});
-          //Use this function to store the id and token in async storage.
-          storeData();
-          this.props.navigation.navigate('Home');
+          this.setState({id: responseJson.id, session: responseJson.session_token,});
+          this.storeData();
         })
         .catch((error) => {
-          Alert.alert(error);
+          Alert.alert(error.message);
         });
-     }
-  }
+    r}
 
 
 
@@ -66,12 +81,12 @@ class Login extends Component
         </TouchableOpacity>
       </View>
     );
-
   }
 
 }
-
 export default Login;
+
+
 
 const styles = StyleSheet.create({
   container:
@@ -95,3 +110,4 @@ const styles = StyleSheet.create({
   }
 
 });
+
