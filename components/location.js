@@ -22,7 +22,7 @@ class Location extends Component
 
   getLocation()
   {
-    this.setState({ locationID: this.props.navigation.state});
+    this.setState({ locationID: this.props.route.params.locationID});
     // get request here to that location.
   }
 
@@ -36,7 +36,7 @@ class Location extends Component
   {
     return (
       <View>
-        <Text>ID: {this.props.navigation.state.locationID}</Text>
+        <Text>ID: {this.state.locationID}</Text>
         <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview')}></Button>
       </View>
     );
