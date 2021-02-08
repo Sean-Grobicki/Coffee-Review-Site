@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Search from './search';
 import Favourite from './favourite';
 import Settings from './settings';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getToken, getUserID } from '../../api/asyncStorage';
 
 const ID_KEY = '@id';
 const SESSION_KEY = '@sessionKey';
@@ -31,29 +31,23 @@ class Home extends Component
   componentDidMount()
   {
     this.getInfo();
+    
   }
 
   async getInfo()
   {
-    try 
-    {
-      await AsyncStorage.getItem(ID_KEY).then((value) =>{
-        if(value)
-        {
-          this.setState({id:value});
-        }
+    const id = await getUserID();
+    const token = await getToken();
+    console.log(id);
+    console.log(token);
+    this.setState(
+      {
+        id: id,
+        token: token,
       });
-      await AsyncStorage.getItem(SESSION_KEY).then((value) =>{
-        if(value)
-        {
-          this.setState({token:value});
-        }
-      });
-    } catch (error) {
-      
-    }
-
   }
+
+
   render()
   {
     return (

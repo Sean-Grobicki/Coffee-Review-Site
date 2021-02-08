@@ -8,7 +8,7 @@ import {
   Button,
   StatusBar,
 } from 'react-native';
-import API from '../../api/apiRequests';
+import getLocationInfo from '../../api/apiRequests';
 
 class Location extends Component
 {
@@ -26,7 +26,7 @@ class Location extends Component
   {
     this.setState({ 
       locationID: this.props.route.params.locationID,
-      location: API.getLocationInfo(this.state.locationID),
+      location: getLocationInfo(this.state.locationID),
     });
   }
 

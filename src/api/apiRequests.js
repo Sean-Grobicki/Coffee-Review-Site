@@ -1,14 +1,13 @@
-import Storage from './asyncStorage';
+import getToken from './asyncStorage';
 
-class API
+const getLocationInfo = async(id) =>
 {
-    static async getLocationInfo(id)
-    {
-        return fetch('http://10.0.2.2:3333/api/1.0.0/location/'+ id, 
-            {
+    const token = await getToken();
+    return fetch('http://10.0.2.2:3333/api/1.0.0/location/'+ id, 
+        {
             method: 'GET',
             headers: { 'Content-Type': 'application/json',
-                        'X-Authorization': Storage.getToken(),
+                        'X-Authorization': token,
                     },
             })
             .then((response) => response.json())
@@ -18,8 +17,10 @@ class API
             .catch((error) =>{
             console.log(error);
             });
-    }
 }
 
 
-export default API;
+module.exports =
+{
+    getLocationInfo: getLocationInfo
+};

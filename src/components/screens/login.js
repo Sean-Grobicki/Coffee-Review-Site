@@ -10,8 +10,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {storeData} from '../../api/asyncStorage';
 const ID_KEY = '@id';
 const SESSION_KEY = '@sessionKey';
 
@@ -29,23 +28,10 @@ class Login extends Component
     };
   }
 
-  async storeData()
-  {
-    try 
-    {
-        await AsyncStorage.setItem(ID_KEY,`${this.state.id}`);
-        await AsyncStorage.setItem(SESSION_KEY,`${this.state.session}`);
-        this.props.navigation.navigate('Home');
-    } 
-    catch (error) 
-    {
-      Alert.alert("Error Saving data",error.message);
-    }
-  }
 
   async login()
   {
-    return fetch("http://10.0.2.2:3333/api/1.0.0/user/login",
+    fetch("http://10.0.2.2:3333/api/1.0.0/user/login",
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -56,15 +42,14 @@ class Login extends Component
         })
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson);
           this.setState({id: responseJson.id, session: responseJson.token,});
-          console.log(this.state.session);
-          this.storeData();
         })
         .catch((error) => {
           Alert.alert(error.message);
         });
-    r}
+        await storeData(this.state.id,this.state.session);
+        this.props.navigation.navigate('Home');
+    }
 
 
 
