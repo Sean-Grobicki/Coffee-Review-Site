@@ -56,7 +56,9 @@ class Login extends Component
         })
         .then((response) => response.json())
         .then((responseJson) => {
-          this.setState({id: responseJson.id, session: responseJson.session_token,});
+          console.log(responseJson);
+          this.setState({id: responseJson.id, session: responseJson.token,});
+          console.log(this.state.session);
           this.storeData();
         })
         .catch((error) => {
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
     padding: '2%',
     borderRadius: 5,
     margin: '5%',
-  }
+  },
 
 });
 

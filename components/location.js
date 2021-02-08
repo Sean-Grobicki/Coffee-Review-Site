@@ -14,20 +14,29 @@ class Location extends Component
   constructor(props)
   {
     super(props);
+    this.state = 
+    {
+      locationID: '',
+    }
   }
 
   getLocation()
   {
-    const locationID = this.props.navigation.getParam(locationID);
+    this.setState({ locationID: this.props.navigation.state});
     // get request here to that location.
+  }
+
+
+  componentDidMount()
+  {
+    this.getLocation();
   }
 
   render()
   {
-    
     return (
       <View>
-        <Text>Search</Text>
+        <Text>ID: {this.props.navigation.state.locationID}</Text>
         <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview')}></Button>
       </View>
     );
