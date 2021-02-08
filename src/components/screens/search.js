@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ShowLocation from '../shared/showLocation';
 
 const SESSION_KEY = '@sessionKey';
 
@@ -30,7 +31,7 @@ class Search extends Component
 
   async getLocations()
   {
-    return fetch('http://10.0.2.2:3333/api/1.0.0/find', 
+    return fetch('http://10.0.2.2:3333/api/1.0.0/find?q='+this.state.search, 
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json',
@@ -132,32 +133,5 @@ const styles = StyleSheet.create(
     alignSelf: 'flex-end',
   },
 })
-
-class ShowLocation extends Component
-{
-  constructor(props)
-  {
-    super(props);
-  }
-
-
-  render()
-  {
-    return(
-      <View>
-          <Text>Name: {this.props.name}</Text>
-          <Text>Place: {this.props.town}</Text>
-          <Text>Overall Rating: {this.props.ovrRating} Price Rating: {this.props.priceRating}</Text>
-          <Text>Quality Rating: {this.props.qualityRating} Cleanlieness Rating: {this.props.cleanlienessRating}</Text>
-          <Button title = "Look at Reviews" onPress = {() => this.props.goLocation(this.props.id)}></Button> 
-      </View>
-    );
-  }
-
-}
-
-
-
-
 
 export default Search;
