@@ -8,6 +8,7 @@ import {
   Button,
   StatusBar,
 } from 'react-native';
+import API from '../../api/apiRequests';
 
 class Location extends Component
 {
@@ -17,13 +18,16 @@ class Location extends Component
     this.state = 
     {
       locationID: '',
+      location: [],
     }
   }
 
   getLocation()
   {
-    this.setState({ locationID: this.props.route.params.locationID});
-    // get request here to that location.
+    this.setState({ 
+      locationID: this.props.route.params.locationID,
+      location: API.getLocationInfo(this.state.locationID),
+    });
   }
 
 
@@ -36,7 +40,7 @@ class Location extends Component
   {
     return (
       <View>
-        <Text>ID: {this.state.locationID}</Text>
+        <Text>Location: {JSON.stringify(this.state.location)}</Text>
         <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview')}></Button>
       </View>
     );
