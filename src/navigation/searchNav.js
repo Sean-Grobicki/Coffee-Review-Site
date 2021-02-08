@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
   import { createStackNavigator } from '@react-navigation/stack';
-  import Search from './search';
-  import Location from './location';
-  import WriteReview from './writeReview';
+  import Search from '../components/screens/search';
+  import Location from '../components/screens/location';
+  import WriteReview from '../components/screens/writeReview';
   
   const SearchStack = createStackNavigator();
   
