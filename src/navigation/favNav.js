@@ -8,9 +8,9 @@ import {
     StatusBar,
   } from 'react-native';
   import { createStackNavigator } from '@react-navigation/stack';
-  import Favourite from './favourite';
-  import Location from './location';
-  import WriteReview from './writeReview';
+  import Favourite from '../components/screens/favourite';
+  import Location from '../components/screens/location';
+  import WriteReview from '../components/screens/writeReview';
   
   const FavStack = createStackNavigator();
   
