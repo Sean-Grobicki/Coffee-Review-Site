@@ -8,6 +8,8 @@ import {
   Button,
   StatusBar,
 } from 'react-native';
+import { post } from '../../api/apiRequests';
+import { getToken } from '../../api/asyncStorage';
 
 class Settings extends Component
 {
@@ -19,9 +21,10 @@ class Settings extends Component
   async logout()
   {
     const route = '/user/logout';
+    const token = await getToken();
     const headers = {'X-Authorization': token , 'Content-Type': 'application/json'};
     const body = {};
-
+    const response = await post(route,headers,body);
     this.props.navigation.popToTop();
   }
 
