@@ -38,8 +38,6 @@ class Home extends Component
   {
     const id = await getUserID();
     const token = await getToken();
-    console.log(id);
-    console.log(token);
     this.setState(
       {
         id: id,

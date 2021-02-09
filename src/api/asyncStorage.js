@@ -22,12 +22,11 @@ const getUserID = async() =>
     try 
     {
         return await AsyncStorage.getItem(ID_KEY).then((value) =>{
-        if(value)
-        {
-            return value;
-        }
+            if(value)
+            {
+                return value;
+            }
     });
-
     } catch (error)
     {       
         console.log(error.message);
@@ -38,14 +37,15 @@ const getToken = async() =>
 {
     try 
     {
-    return await AsyncStorage.getItem(SESSION_KEY).then((value) =>{
-        if(value)
-        {
-            return value;
-        }
+        return await AsyncStorage.getItem(SESSION_KEY).then((value) =>{
+            if(value)
+            {
+                return value;
+            }
         });
 
-    } catch (error)
+    } 
+    catch (error)
     {
         console.log(error.message);
     }

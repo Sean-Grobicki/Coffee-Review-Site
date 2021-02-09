@@ -8,7 +8,8 @@ import {
   Button,
   StatusBar,
 } from 'react-native';
-import getLocationInfo from '../../api/apiRequests';
+import ShowLocation from '../shared/showLocation'; 
+import { get } from '../../api/apiRequests';
 
 class Location extends Component
 {
@@ -22,11 +23,19 @@ class Location extends Component
     }
   }
 
-  getLocation()
+  async getLocation()
   {
     this.setState({ 
+      
+    }); 
+    
+    const route = '/location/' + this.props.route.params.locationID;
+    const headers = { 'Content-Type': 'application/json' };
+    const response = await get(route,headers);
+    this.setState(
+      {
       locationID: this.props.route.params.locationID,
-      location: getLocationInfo(this.state.locationID),
+      location: response,
     });
   }
 
@@ -40,7 +49,15 @@ class Location extends Component
   {
     return (
       <View>
-        <Text>Location: {JSON.stringify(this.state.location)}</Text>
+        <ShowLocation
+            id = {this.state.location.location_id}
+            name = {this.state.location.location_name} 
+            town = {this.state.location.location_town} 
+            ovrRating = {this.state.location.avg_overall_rating} 
+            priceRating = {this.state.location.avg_price_rating}
+            qualityRating = {this.state.location.avg_quality_rating}
+            cleanlienessRating = {this.state.location.avg_clenliness_rating}
+          />
         <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview')}></Button>
       </View>
     );

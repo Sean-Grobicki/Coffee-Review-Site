@@ -22,7 +22,6 @@ class ShowLocation extends Component
           <Text>Place: {this.props.town}</Text>
           <Text>Overall Rating: {this.props.ovrRating} Price Rating: {this.props.priceRating}</Text>
           <Text>Quality Rating: {this.props.qualityRating} Cleanlieness Rating: {this.props.cleanlienessRating}</Text>
-          <Button title = "Look at Reviews" onPress = {() => this.props.goLocation(this.props.id)}></Button> 
       </View>
     );
   }

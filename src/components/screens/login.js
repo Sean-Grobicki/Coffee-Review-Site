@@ -10,9 +10,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import {storeData} from '../../api/asyncStorage';
-const ID_KEY = '@id';
-const SESSION_KEY = '@sessionKey';
+import { storeData } from '../../api/asyncStorage';
+import { post } from '../../api/apiRequests';
 
 class Login extends Component
 {
@@ -30,29 +29,14 @@ class Login extends Component
 
 
   async login()
-  {
-    fetch("http://10.0.2.2:3333/api/1.0.0/user/login",
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password,
-          })
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({id: responseJson.id, session: responseJson.token,});
-        })
-        .catch((error) => {
-          Alert.alert(error.message);
-        });
-        await storeData(this.state.id,this.state.session);
-        this.props.navigation.navigate('Home');
-    }
-
-
-
+  { 
+      const route = "/user/login";
+      const headers = { 'Content-Type': 'application/json' };
+      const body = JSON.stringify({ email: this.state.email, password: this.state.password,});
+      const response = await post(route,headers,body);
+      await storeData(response.id,response.token);
+      this.props.navigation.navigate('Home');
+  }
 
   render()
   {

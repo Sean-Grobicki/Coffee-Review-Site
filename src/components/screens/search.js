@@ -11,10 +11,10 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ShowLocation from '../shared/showLocation';
+import { get } from '../../api/apiRequests';
+import { getToken } from '../../api/asyncStorage'; 
 
-const SESSION_KEY = '@sessionKey';
 
 class Search extends Component
 {
@@ -25,56 +25,26 @@ class Search extends Component
     {
       search: '',
       locations: '',
-      session: '',
     }
   }
 
   async getLocations()
   {
-    return fetch('http://10.0.2.2:3333/api/1.0.0/find?q='+this.state.search, 
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json',
-                  'X-Authorization': this.state.session,
-               },
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-
-      this.setState({
-        locations: responseJson,
-      });
-      console.log(responseJson)
-    })
-    .catch((error) =>{
-      console.log(error);
-    });
+    const route = '/find?q='+this.state.search;
+    const token = await getToken();
+    const headers = {'X-Authorization': token};
+    console.log(headers);
+    const response = await get(route,headers);
+    this.setState({locations: response});
   }
-  
+
   componentDidMount()
   {
-    this.getSession();
-  }
 
-  async getSession()
-  {
-    try 
-    {
-      await AsyncStorage.getItem(SESSION_KEY).then((value) =>{
-        if(value)
-        {
-          this.setState({session:value});
-        }
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-    console.log(this.state.session);
   }
 
   goLocation(id)
   {
-    console.log(id);
     this.props.navigation.navigate('Location',{locationID: id});
   }
 
@@ -89,15 +59,18 @@ class Search extends Component
         <FlatList
             data={this.state.locations}
             renderItem={({item}) =>
-            <ShowLocation
-            id = {item.location_id}
-            name = {item.location_name} 
-            town = {item.location_town} 
-            ovrRating = {item.avg_overall_rating} 
-            priceRating = {item.avg_price_rating}
-            qualityRating = {item.avg_quality_rating}
-            cleanlienessRating = {item.avg_clenliness_rating}
-            goLocation = {(id) => this.goLocation(id)}/>}
+            <View>
+              <ShowLocation
+              name = {item.location_name} 
+              town = {item.location_town} 
+              ovrRating = {item.avg_overall_rating} 
+              priceRating = {item.avg_price_rating}
+              qualityRating = {item.avg_quality_rating}
+              cleanlienessRating = {item.avg_clenliness_rating}
+              />
+              <Button title = "Look at Reviews" onPress = {() => this.goLocation(item.location_id)}></Button>
+            </View>  
+          }
           />
         
       </View>

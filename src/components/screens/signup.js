@@ -11,6 +11,7 @@ import {
   StatusBar,
 } from 'react-native';
 import ValidationComponent from 'react-native-form-validator';
+import { post } from '../../api/apiRequests';
 
 class Signup extends ValidationComponent
 {
@@ -27,7 +28,7 @@ class Signup extends ValidationComponent
     }
   }
   
-  createUser()
+  async createUser()
   {
     this.validate(
       {
@@ -38,33 +39,16 @@ class Signup extends ValidationComponent
       });
       if(this.isFormValid())
       {
-        return fetch("http://10.0.2.2:3333/api/1.0.0/user",
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            first_name: this.state.firstName,
-            last_name: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-          })
-        })
-        .then((response) => {
-          if(response.status == 201)
-          {
-            Alert.alert("Account Created");
-            this.props.navigation.navigate('Login')
-          }
-          else
-          {
-            Alert.alert("Unsuccessful Request");
-            console.log(response);
-          }
-        })
-          
-        .catch((error) => {
-          Alert.alert(error.message);
+        const route = '/user'
+        const headers = { 'Content-Type': 'application/json' };
+        const body = JSON.stringify({
+          first_name: this.state.firstName,
+          last_name: this.state.lastName,
+          email: this.state.email,
+          password: this.state.password,
         });
+        const response = await post(route,headers,body);
+        this.props.navigation.navigate('Login');
      }
      else
      {
