@@ -71,6 +71,7 @@ class Search extends Component
               <Button title = "Look at Reviews" onPress = {() => this.goLocation(item.location_id)}></Button>
             </View>  
           }
+          keyExtractor={(item, index) => item.location_id.toString()}
           />
         
       </View>

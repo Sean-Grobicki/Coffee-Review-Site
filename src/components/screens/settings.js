@@ -16,13 +16,22 @@ class Settings extends Component
     super(props);
   }
 
+  async logout()
+  {
+    const route = '/user/logout';
+    const headers = {'X-Authorization': token , 'Content-Type': 'application/json'};
+    const body = {};
+
+    this.props.navigation.popToTop();
+  }
+
   render()
   {
     return (
       <View>
         <Text>Settings</Text>
         <Button title = "Change Settings" onPress = {() => this.props.navigation.navigate('ChangeInfo')}></Button>
-        <Button title = "Logout" onPress = {() => this.props.navigation.popToTop()}></Button>
+        <Button title = "Logout" onPress = {() => this.logout()}></Button>
       </View>
     );
 

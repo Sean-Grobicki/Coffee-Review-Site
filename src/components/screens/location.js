@@ -7,8 +7,10 @@ import {
   Text,
   Button,
   StatusBar,
+  FlatList,
 } from 'react-native';
-import ShowLocation from '../shared/showLocation'; 
+import ShowLocation from '../shared/showLocation';
+import Review from '../shared/review'; 
 import { get } from '../../api/apiRequests';
 
 class Location extends Component
@@ -24,11 +26,7 @@ class Location extends Component
   }
 
   async getLocation()
-  {
-    this.setState({ 
-      
-    }); 
-    
+  {    
     const route = '/location/' + this.props.route.params.locationID;
     const headers = { 'Content-Type': 'application/json' };
     const response = await get(route,headers);
@@ -58,12 +56,36 @@ class Location extends Component
             qualityRating = {this.state.location.avg_quality_rating}
             cleanlienessRating = {this.state.location.avg_clenliness_rating}
           />
-        <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview')}></Button>
+        <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview',{locationID: this.state.locationID})}></Button>
+        <FlatList
+            data={this.state.location.location_reviews}
+            renderItem={({item}) =>
+            <View style = {styles.review}>
+              <Review
+                likes = {item.likes}
+                comment = {item.review_body}
+                ovrRating = {item.overall_rating} 
+                priceRating = {item.price_rating}
+                qualityRating = {item.quality_rating}
+                cleanlienessRating = {item.clenliness_rating}
+              />
+
+            </View>  
+          }
+          keyExtractor={(item, index) => item.review_id.toString()}
+          />
       </View>
     );
 
   }
 
 }
+const styles = StyleSheet.create({
+  review:
+  {
+    borderColor: 'black',
+    borderWidth: 2,
+  },
 
+});
 export default Location;
