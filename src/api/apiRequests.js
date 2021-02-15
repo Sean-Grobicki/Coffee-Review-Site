@@ -27,8 +27,4 @@ const post = async(route,headers,body) =>
         });
 }
 
-module.exports =
-{
-    get: get,
-    post: post,
-};
+module.exports = { get: get, post: post };

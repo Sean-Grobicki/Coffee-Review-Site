@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Button,
-  Text,
-} from 'react-native';
-
+import { View, Text, Button } from 'react-native';
 
 class Review extends Component
 {
   constructor(props)
   {
     super(props);
+  }
+
+  changeReview(){
+
   }
 
 

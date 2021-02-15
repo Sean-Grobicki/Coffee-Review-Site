@@ -18,8 +18,7 @@ class Settings extends Component
     super(props);
   }
 
-  async logout()
-  {
+  async logout() {
     const route = '/user/logout';
     const token = await getToken();
     const headers = {'X-Authorization': token , 'Content-Type': 'application/json'};

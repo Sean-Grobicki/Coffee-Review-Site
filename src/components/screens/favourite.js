@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
   Text,
   Button,
-  StatusBar,
 } from 'react-native';
 
-class Favourite extends Component
-{
+class Favourite extends Component {
   constructor(props)
   {
     super(props);

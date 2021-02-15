@@ -9,32 +9,27 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import Home from '../components/screens/home';
+import HomeNav from './homeNav';
 import SearchNav from './searchNav';
 import FavouriteNav from './favNav';
 import SettingNav from './settingsNav';
 
 const TabNavigation = createBottomTabNavigator();
 
-
-class MainNav extends Component
-{
-  constructor(props)
-  {
+class MainNav extends Component {
+  constructor(props) {
     super(props);
   }
 
-  render()
-  {
-    return (
-          <TabNavigation.Navigator>
-            <TabNavigation.Screen name = "Home" component = {Home}/>
-            <TabNavigation.Screen name = "Search" component = {SearchNav}/>
-            <TabNavigation.Screen name = "Favourite" component = {FavouriteNav}/>
-            <TabNavigation.Screen name = "Settings" component = {SettingNav}/>
-          </TabNavigation.Navigator>
+  render() {
+    return(
+      <TabNavigation.Navigator>
+        <TabNavigation.Screen name = "Home" component = {HomeNav}/>
+        <TabNavigation.Screen name = "Search" component = {SearchNav}/>
+        <TabNavigation.Screen name = "Favourite" component = {FavouriteNav}/>
+        <TabNavigation.Screen name = "Settings" component = {SettingNav}/>
+      </TabNavigation.Navigator>
     );
-
   }
 
 }

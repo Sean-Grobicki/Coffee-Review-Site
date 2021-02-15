@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
   Text,
-  StatusBar,
 } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 
-class ChangeInfo extends Component
-{
+class ChangeInfo extends Component {
   constructor(props)
   {
     super(props);

@@ -1,65 +1,57 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   FlatList,
   Text,
-  StatusBar,
+  Button,
 } from 'react-native';
 import Review from '../shared/review';
 import ShowLocation from '../shared/showLocation';
 import { getToken, getUserID } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
 
-
-
-class Home extends Component
-{
-  constructor(props)
-  {
+class Home extends Component {
+  constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       user: '',
-    }
+    };
   }
 
-  componentDidMount()
-  {
+  componentDidMount() {
     this.getInfo();
-    
   }
 
-  async getInfo()
-  {
+  async getInfo() {
     const id = await getUserID();
     const token = await getToken();
-    const route = '/user/'+ id;
-    const headers = {'X-Authorization': token};
-    const response = await get(route,headers);
-    this.setState({user: response});
-    console.log(this.state.user.reviews.review);
+    const route = '/user/'.concat(id);
+    const headers = { 'X-Authorization': token };
+    const response = await get(route, headers);
+    this.setState({ user: response });
   }
 
+  goReview(review){
+    this.props.navigation.navigate('Change Review',{review: review});
+  }
 
-  render()
-  {
+  render() {
     return (
       <View>
-        <Text style = {styles.title}>Your Reviews</Text>
-          <FlatList
-            data={this.state.user.reviews}
-            renderItem={({item}) =>
+        <Text style={styles.title}>Your Reviews</Text>
+        <FlatList
+          data={this.state.user.reviews}
+          renderItem={({ item }) =>
             <View style = {styles.review}>
-              <ShowLocation
-              name = {item.location.location_name} 
-              town = {item.location.location_town} 
-              ovrRating = {item.location.avg_overall_rating} 
-              priceRating = {item.location.avg_price_rating}
-              qualityRating = {item.location.avg_quality_rating}
-              cleanlienessRating = {item.location.avg_clenliness_rating}
-              />
+              <ShowLocation 
+                name = {item.location.location_name} 
+                town = {item.location.location_town} 
+                ovrRating = {item.location.avg_overall_rating} 
+                priceRating = {item.location.avg_price_rating}
+                qualityRating = {item.location.avg_quality_rating}
+                cleanlienessRating = {item.location.avg_clenliness_rating}
+               />
               <Review
                 likes = {item.review.likes}
                 comment = {item.review.review_body}
@@ -68,10 +60,11 @@ class Home extends Component
                 qualityRating = {item.review.quality_rating}
                 cleanlienessRating = {item.review.clenliness_rating}
               />
-            </View>  
+              <Button title="Change Review" onPress = {() =>this.goReview(item.review)}/>
+            </View>
           }
-          keyExtractor={(item, index) => item.review.review_id.toString()}
-          />
+          keyExtractor={(item) => item.review.review_id.toString()}
+        />
       </View>
     );
 
@@ -90,9 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',
-
-  }
+  },
 });
 
 export default Home;
-
