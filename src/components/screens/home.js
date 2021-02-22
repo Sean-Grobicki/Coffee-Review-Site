@@ -32,8 +32,8 @@ class Home extends Component {
     this.setState({ user: response });
   }
 
-  goReview(review){
-    this.props.navigation.navigate('Change Review',{review: review});
+  goReview(review, locID) {
+    this.props.navigation.navigate('Change Review',{review: review, locationID: locID});
   }
 
   render() {
@@ -44,7 +44,8 @@ class Home extends Component {
           data={this.state.user.reviews}
           renderItem={({ item }) =>
             <View style = {styles.review}>
-              <ShowLocation 
+              <ShowLocation
+                id = {item.location.location_id} 
                 name = {item.location.location_name} 
                 town = {item.location.location_town} 
                 ovrRating = {item.location.avg_overall_rating} 
@@ -60,7 +61,7 @@ class Home extends Component {
                 qualityRating = {item.review.quality_rating}
                 cleanlienessRating = {item.review.clenliness_rating}
               />
-              <Button title="Change Review" onPress = {() =>this.goReview(item.review)}/>
+              <Button title="Change Review" onPress = {() =>this.goReview(item.review,item.location.location_id)}/>
             </View>
           }
           keyExtractor={(item) => item.review.review_id.toString()}

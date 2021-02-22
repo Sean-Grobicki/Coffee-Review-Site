@@ -61,6 +61,7 @@ class Search extends Component
             renderItem={({item}) =>
             <View>
               <ShowLocation
+              id = {item.location.location_id}
               name = {item.location_name} 
               town = {item.location_town} 
               ovrRating = {item.avg_overall_rating} 

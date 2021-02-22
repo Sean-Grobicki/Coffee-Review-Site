@@ -18,14 +18,13 @@ class Signup extends ValidationComponent
   constructor(props)
   {
     super(props);
-    this.state = 
-    {
+    this.state = {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
       rPassword: '',
-    }
+    };
   }
   
   async createUser()
