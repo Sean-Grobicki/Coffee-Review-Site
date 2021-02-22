@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Review from '../shared/review';
 import ShowLocation from '../shared/showLocation';
+import { getFavourites, isFavourite } from '../shared/getFavourites';
 import { getToken, getUserID } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
 
@@ -16,11 +17,13 @@ class Home extends Component {
     super(props);
     this.state = {
       user: '',
+      favourites: [],
     };
   }
 
   componentDidMount() {
     this.getInfo();
+    console.log(this.state.favourites);
   }
 
   async getInfo() {
@@ -29,7 +32,11 @@ class Home extends Component {
     const route = '/user/'.concat(id);
     const headers = { 'X-Authorization': token };
     const response = await get(route, headers);
-    this.setState({ user: response });
+    this.setState({ 
+      user: response,
+      favourites: getFavourites(),
+    });
+
   }
 
   goReview(review, locID) {
@@ -52,6 +59,7 @@ class Home extends Component {
                 priceRating = {item.location.avg_price_rating}
                 qualityRating = {item.location.avg_quality_rating}
                 cleanlienessRating = {item.location.avg_clenliness_rating}
+                favourite={isFavourite(item.location.location_id,this.state.favourites)}
                />
               <Review
                 likes = {item.review.likes}
