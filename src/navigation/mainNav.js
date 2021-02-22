@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeNav from './homeNav';
 import SearchNav from './searchNav';
@@ -23,7 +24,37 @@ class MainNav extends Component {
 
   render() {
     return(
-      <TabNavigation.Navigator>
+      <TabNavigation.Navigator screenOptions={({route}) =>({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if(route.name === 'Home') {
+            iconName = focused
+            ? 'home-sharp'
+            : 'home-outline'
+          }
+          else if (route.name == 'Search'){
+            iconName = focused
+            ? 'search-sharp'
+            : 'search-outline'
+          }
+          else if (route.name == 'Favourite'){
+            iconName = focused
+            ? 'star-sharp'
+            : 'star-outline'
+          }
+          else if (route.name == 'Settings'){
+            iconName = focused
+            ? 'settings-sharp'
+            : 'settings-outline'
+          }
+          return (<Icon name={iconName} size={size} color={color} />);
+        },
+      })}
+      tabBarOptions ={{
+        activeTintColor: 'red',
+        inactiveTintColor: 'red'
+      }}>
         <TabNavigation.Screen name = "Home" component = {HomeNav}/>
         <TabNavigation.Screen name = "Search" component = {SearchNav}/>
         <TabNavigation.Screen name = "Favourite" component = {FavouriteNav}/>

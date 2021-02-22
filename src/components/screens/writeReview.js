@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Icon from 'react-native-vector-icons/Feather';
 import { post } from '../../api/apiRequests';
 import { getToken } from '../../api/asyncStorage';
 

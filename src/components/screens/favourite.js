@@ -37,6 +37,10 @@ class Favourite extends Component {
     this.setState({ locations: response });
   }
 
+  goLocation(id) {
+    this.props.navigation.navigate('Location', {locationID: id});
+  }
+
   render() {
     return (
       <View>

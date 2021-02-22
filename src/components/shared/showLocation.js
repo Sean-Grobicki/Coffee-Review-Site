@@ -1,44 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { getToken } from '../../api/asyncStorage';
 import { post, remove, get} from '../../api/apiRequests';
+
 
 class ShowLocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       favourite: false,
-      favouriteText: '',
+      favouriteText: 'staro',
     };
   }
 
   componentDidMount() {
-    this.getIsFavourite();
+    this.setState({favourite: this.props.favourite});
     if (this.state.favourite) {
-      this.setState({ favouriteText: 'Unfavourite' });
+      this.setState({ favouriteText: 'star' });
     }
     else {
-      this.setState({ favouriteText: 'Favourite' });
+      this.setState({ favouriteText: 'staro' });
     }
-  }
-
-  async getIsFavourite() {
-    const route = '/find';
-    const token = await getToken();
-    const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
-    const response = await get(route,headers);
-    const fav = this.isFavourite(response);
-    this.setState({ favourite: fav });
-  }
-
-  isFavourite(locations) {
-    locations.forEach((loc) => {
-      if (loc.location_id === this.props.id) {
-        return true;
-      }
-    });
-    return false;
   }
 
   async favouriteLocation() {
@@ -68,7 +51,8 @@ class ShowLocation extends Component {
         <Text>Place: {this.props.town}</Text>
         <Text>Overall Rating: {this.props.ovrRating} Price Rating: {this.props.priceRating}</Text>
         <Text>Quality Rating: {this.props.qualityRating} Cleanlieness Rating: {this.props.cleanlienessRating}</Text>
-        <Button title={this.state.favouriteText} onPress={() => this.favouriteLocation()}/>
+        <Icon name={this.state.favouriteText} size={25} color="red" />
+
       </View>
     );
   }

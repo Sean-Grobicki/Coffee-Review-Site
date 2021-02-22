@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import ShowLocation from '../shared/showLocation';
 import { get } from '../../api/apiRequests';
-import { getToken } from '../../api/asyncStorage'; 
+import { getToken, getUserID } from '../../api/asyncStorage'; 
 
 
 class Search extends Component
@@ -25,6 +25,8 @@ class Search extends Component
     {
       search: '',
       locations: '',
+      favourites: '',
+      token: '',
     }
   }
 
@@ -33,19 +35,30 @@ class Search extends Component
     const route = '/find?q='+this.state.search;
     const token = await getToken();
     const headers = {'X-Authorization': token};
-    console.log(headers);
     const response = await get(route,headers);
-    this.setState({locations: response});
+    this.setState({locations: response, token: token});
   }
 
-  componentDidMount()
-  {
+  async getFavourites() {
+    const uid = await getUserID();
+    const route = '/user/'+ uid;
+    const headers = { 'X-Authorization': this.state.token };
+    const response = await get(route, headers);
+    let locationIDs = [];
+    for (const location in response.favourite_locations) {
+      locationIDs.push(location.location_id);
+    }
+    this.setState({ favourites: response.favourite_locations });
+  }
 
+  componentDidMount() {
+    this.getFavourites();
+    console.log(this.state.favourites);
   }
 
   goLocation(id)
   {
-    this.props.navigation.navigate('Location',{locationID: id});
+    this.props.navigation.navigate('Location', {locationID: id});
   }
 
   render()
@@ -61,7 +74,7 @@ class Search extends Component
             renderItem={({item}) =>
             <View>
               <ShowLocation
-              id = {item.location.location_id}
+              id = {item.location_id}
               name = {item.location_name} 
               town = {item.location_town} 
               ovrRating = {item.avg_overall_rating} 

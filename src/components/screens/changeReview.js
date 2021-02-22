@@ -5,6 +5,7 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ValidationComponent from 'react-native-form-validator';
+import Icon from 'react-native-vector-icons/Feather';
 import { remove, patch} from '../../api/apiRequests';
 import { getToken } from '../../api/asyncStorage';
 class ChangeReview extends ValidationComponent {
