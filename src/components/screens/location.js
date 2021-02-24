@@ -20,38 +20,31 @@ class Location extends Component {
     this.state = {
       locationID: '',
       location: [],
-      favourite: '',
+      liked: [],
     };
-  }
-
-  async getLocation() {
-    const route = '/location/' + this.props.route.params.locationID;
-    const headers = { 'Content-Type': 'application/json' };
-    const response = await get(route,headers);
-    this.setState({
-      locationID: this.props.route.params.locationID,
-      location: response,
-      favourite: this.props.route.params.favourite,
-      liked: await getLiked(),
-    });
   }
 
   componentDidMount() {
     this.getLocation();
   }
 
+  async getLocation() {
+    const route = '/location/' + this.props.route.params.locationID;
+    const headers = { 'Content-Type': 'application/json' };
+    const response = await get(route, headers);
+    this.setState({
+      locationID: this.props.route.params.locationID,
+      location: response,
+      liked: await getLiked(),
+    });
+  }
+
   render() {
     return (
       <View>
         <ShowLocation
-            id = {this.state.location.location_id}
-            name = {this.state.location.location_name} 
-            town = {this.state.location.location_town} 
-            ovrRating = {this.state.location.avg_overall_rating} 
-            priceRating = {this.state.location.avg_price_rating}
-            qualityRating = {this.state.location.avg_quality_rating}
-            cleanlienessRating = {this.state.location.avg_clenliness_rating}
-            favourite={this.state.favourite}
+            location={this.state.location}
+            favourite={this.props.route.params.favourite}
           />
         <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview',{locationID: this.state.locationID})}></Button>
         <FlatList
@@ -59,13 +52,9 @@ class Location extends Component {
             renderItem={({item}) =>
             <View style = {styles.review}>
               <Review
-                likes = {item.likes}
-                comment = {item.review_body}
-                ovrRating = {item.overall_rating} 
-                priceRating = {item.price_rating}
-                qualityRating = {item.quality_rating}
-                cleanlienessRating = {item.clenliness_rating}
-                liked={isLiked(item.review_id,this.state.liked)}
+                locID={this.state.locationID}
+                review={item}
+                liked={ isLiked(item.review_id,this.state.liked )}
               />
             </View>  
           }

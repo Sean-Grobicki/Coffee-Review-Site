@@ -3,6 +3,7 @@ import {
   View,
   Button,
   Text,
+  Alert,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -39,8 +40,24 @@ class WriteReview extends Component {
       review_body: this.state.comment,
     });
     const response = await post(route, headers, body);
-    this.props.navigation.goBack();
+    this.picturePrompt();
   }
+
+  picturePrompt() {
+    Alert.alert(
+      'Picture',
+      'Do you want to add a picture to this review',
+      [
+        {
+          text: 'Yes',
+          onPress: () => this.props.navigation.navigate('Camera'),
+        },
+        {
+          text: 'No',
+          onPress: () => this.props.navigation.goBack(),
+        }],
+      );
+    }
 
   render() {
     const pickerList = [

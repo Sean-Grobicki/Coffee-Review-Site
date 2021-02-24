@@ -9,8 +9,7 @@ import { getUserID, getToken } from '../../api/asyncStorage';
 import { patch, get } from '../../api/apiRequests';
 
 class ChangeInfo extends ValidationComponent {
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.state = {
       user: [],
@@ -72,8 +71,7 @@ class ChangeInfo extends ValidationComponent {
     return JSON.stringify(body);
   }
 
-  render()
-  {
+  render() {
     return (
       <View>
         <TextInput defaultValue={this.state.user.first_name} onChangeText={(fName) => this.setState({ firstName: fName })} />

@@ -11,6 +11,7 @@ import {
   import Favourite from '../components/screens/favourite';
   import Location from '../components/screens/location';
   import WriteReview from '../components/screens/writeReview';
+  import Camera from '../components/screens/camera';
   
   const FavStack = createStackNavigator();
   
@@ -26,9 +27,10 @@ import {
     {
       return (
         <FavStack.Navigator>
-            <FavStack.Screen name = "FavouriteRoot" component = {Favourite} options = {{headerShown: false}}/>
-            <FavStack.Screen name = "Location" component = {Location}/>
-            <FavStack.Screen name = "WriteReview" component = {WriteReview}/>
+          <FavStack.Screen name = "FavouriteRoot" component = {Favourite} options = {{headerShown: false}}/>
+          <FavStack.Screen name = "Location" component = {Location}/>
+          <FavStack.Screen name = "WriteReview" component = {WriteReview}/>
+          <FavStack.Screen name = "Camera" component = {Camera}/>
         </FavStack.Navigator>
       );
     }

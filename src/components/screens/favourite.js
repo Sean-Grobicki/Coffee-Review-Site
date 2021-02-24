@@ -37,7 +37,7 @@ class Favourite extends Component {
   }
 
   goLocation(id) {
-    this.props.navigation.navigate('Location', {locationID: id});
+    this.props.navigation.navigate('Location', {locationID: id, favourite: true});
   }
 
   render() {
@@ -49,13 +49,7 @@ class Favourite extends Component {
           renderItem={({ item }) => (
             <View>
               <ShowLocation
-                id={item.location_id}
-                name={item.location_name}
-                town={item.location_town}
-                ovrRating={item.avg_overall_rating}
-                priceRating={item.avg_price_rating}
-                qualityRating={item.avg_quality_rating}
-                cleanlienessRating={item.avg_clenliness_rating}
+                location={item}
                 favourite={true}
               />
               <Button title="Look at Reviews" onPress={() => this.goLocation(item.location_id)} />

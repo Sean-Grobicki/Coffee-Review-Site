@@ -45,15 +45,15 @@ class Search extends Component {
   }
 
   goLocation(id) {
-    this.props.navigation.navigate('Location', { locationID: id, favourite: isFavourite(id,this.state.favourites) });
+    const fav = isFavourite(id, this.state.favourites);
+    this.props.navigation.navigate('Location', { locationID: id, favourite: fav});
   }
 
-  render()
-  {
+  render() {
     return (
       <View>
         <TextInput style = {styles.input} placeholder = "Search Cafe's" onChangeText = {(input) => this.setState({search: input})}></TextInput>
-        <TouchableOpacity style = {styles.buttons} onPress = {() => this.getLocations()}>
+        <TouchableOpacity style={styles.buttons} onPress={() => this.getLocations()}>
           <Text> Search</Text>
         </TouchableOpacity>
         <FlatList
@@ -61,13 +61,7 @@ class Search extends Component {
             renderItem={({item}) =>
             <View>
               <ShowLocation
-              id = {item.location_id}
-              name = {item.location_name} 
-              town = {item.location_town} 
-              ovrRating = {item.avg_overall_rating} 
-              priceRating = {item.avg_price_rating}
-              qualityRating = {item.avg_quality_rating}
-              cleanlienessRating = {item.avg_clenliness_rating}
+              location={item}
               favourite = {isFavourite(item.location_id,this.state.favourites)}
               />
               <Button title = "Look at Reviews" onPress = {() => this.goLocation(item.location_id)}></Button>

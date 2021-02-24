@@ -65,7 +65,7 @@ class ChangeReview extends ValidationComponent {
     this.props.navigation.goBack();
   }
 
-  confirmDelete() {
+  confirmDeleteRev() {
     Alert.alert(
       'Confirm Delete',
       'Are you sure you want to delete this item',
@@ -79,6 +79,30 @@ class ChangeReview extends ValidationComponent {
         }],
     );
   }
+
+  takePicture() {
+    this.props.navigation.navigate('Camera');
+  }
+
+  confirmDeletePic() {
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this Picture',
+      [
+        {
+          text: 'Yes',
+          onPress: () => this.deletePicture(),
+        },
+        {
+          text: 'No',
+        }],
+    );
+  }
+
+  async deletePicture() {
+    console.log("Still needs to be done");
+  }
+
 
   render() {
     const pickerList = [
@@ -101,7 +125,9 @@ class ChangeReview extends ValidationComponent {
         <DropDownPicker defaultValue={this.state.review.clenliness_rating} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
         <TextInput placeholder="Enter your comments: " defaultValue={this.state.review.review_body} onChangeText={(com) => this.setState({ comment: com })} />
         <Button title="Change Review" onPress={() => this.changeReview()} />
-        <Button title="Delete Review" onPress={() => this.confirmDelete()} />
+        <Button title="Delete Review" onPress={() => this.confirmDeleteRev()} />
+        <Button title="Add Picture" onPress={() => this.takePicture()} />
+        <Button title="Delete Picture" onPress={() => this.confirmDeletePic()} />
       </View>
     );
   }

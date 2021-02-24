@@ -10,7 +10,7 @@ const getLiked = async () => {
   const reviews = response.liked_reviews;
   let ids = [];
   reviews.forEach(review => {
-    ids.push(review.review_id);
+    ids.push(review.review.review_id);
   });
   return ids;
 };

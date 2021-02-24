@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
   import Search from '../components/screens/search';
   import Location from '../components/screens/location';
   import WriteReview from '../components/screens/writeReview';
+  import Camera from '../components/screens/camera';
   
   const SearchStack = createStackNavigator();
   
@@ -23,6 +24,7 @@ import { NavigationContainer } from '@react-navigation/native';
             <SearchStack.Screen name = "Search" component = {Search} options = {{headerShown: false}}/>
             <SearchStack.Screen name = "Location" component = {Location}/>
             <SearchStack.Screen name = "WriteReview" component = {WriteReview}/>
+            <SearchStack.Screen name = "Camera" component = {Camera}/>
         </SearchStack.Navigator>
       );
     }

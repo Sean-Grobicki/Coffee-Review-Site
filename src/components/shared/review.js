@@ -24,7 +24,7 @@ class Review extends Component
   }
 
   async likeUnlike() {
-    const route = '/location/'+ this.props.locID + '/review/'+ this.props.revID + '/like';
+    const route = '/location/'+ this.props.locID + '/review/'+ this.props.review.review_id + '/like';
     const token = await getToken();
     const body = {};
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
@@ -42,10 +42,10 @@ class Review extends Component
   {
     return(
       <View>
-          <Text>Likes: {this.state.likes}</Text>
-          <Text>Comment: {this.props.comment}</Text>
-          <Text>Overall Rating: {this.props.ovrRating} Price Rating: {this.props.priceRating}</Text>
-          <Text>Quality Rating: {this.props.qualityRating} Cleanlieness Rating: {this.props.cleanlienessRating}</Text>
+          <Text>Likes: {this.props.review.likes}</Text>
+          <Text>Comment: {this.props.review.review_body}</Text>
+          <Text>Overall Rating: {this.props.review.overall_rating} Price Rating: {this.props.review.price_rating}</Text>
+          <Text>Quality Rating: {this.props.review.quality_rating} Cleanlieness Rating: {this.props.review.clenliness_rating}</Text>
           <TouchableOpacity onPress={() => this.likeUnlike()}>
             <Icon name={this.state.iconName} color="red" size={30} />
           </TouchableOpacity>
