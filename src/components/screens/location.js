@@ -34,7 +34,7 @@ class Location extends Component {
     const response = await get(route, headers);
     this.setState({
       locationID: this.props.route.params.locationID,
-      location: response,
+      location: response.data,
       liked: await getLiked(),
     });
   }

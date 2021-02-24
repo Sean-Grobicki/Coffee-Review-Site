@@ -4,6 +4,7 @@ import {
   Text,
   FlatList,
   Button,
+  Alert,
 } from 'react-native';
 import { getToken } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
@@ -27,13 +28,22 @@ class Favourite extends Component {
   componentWillUnmount() {
     this.focusListener();
   }
-  
+
   async getLocations() {
     const route = '/find?search_in=favourite';
     const token = await getToken();
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
     const response = await get(route, headers);
-    this.setState({ locations: response });
+    if (response.code === 200) {
+      // Add something with activity indicator
+    } else if (response.code === 400) {
+      Alert.alert('A bad request was sent to the server');
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to change this review');
+    } else {
+      Alert.alert('Server Error');
+    }
+    this.setState({ locations: response.data });
   }
 
   goLocation(id) {

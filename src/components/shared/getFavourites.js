@@ -7,7 +7,7 @@ const getFavourites = async () => {
   const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
   const response = await get(route, headers);
   let ids = [];
-  response.forEach(location => {
+  response.data.forEach(location => {
     ids.push(location.location_id);
   });
   return ids;

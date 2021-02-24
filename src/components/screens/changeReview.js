@@ -35,6 +35,19 @@ class ChangeReview extends ValidationComponent {
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
     const body = this.getReviewBody();
     const response = await patch(route, headers, body);
+    if (response.code === 200) {
+      // Add something with activity indicator
+    } else if (response.code === 400) {
+      Alert.alert('A bad request was sent to the server');
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to change this review');
+    } else if (response.code === 403) {
+      Alert.alert('You are forbidden to change this review');
+    } else if (response.code === 404) {
+      Alert.alert('This review cannot be found on the server.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   getReviewBody() {
@@ -62,7 +75,19 @@ class ChangeReview extends ValidationComponent {
     const token = await getToken();
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
     const response = await remove(route, headers);
-    this.props.navigation.goBack();
+    if (response.code === 200) {
+      this.props.navigation.goBack();
+    } else if (response.code === 400) {
+      Alert.alert('A bad request was sent to the server');
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to change this information');
+    } else if (response.code === 403) {
+      Alert.alert('You are forbidden to change this information');
+    } else if (response.code === 404) {
+      Alert.alert('This information cannot be found on the server.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   confirmDeleteRev() {
@@ -81,7 +106,7 @@ class ChangeReview extends ValidationComponent {
   }
 
   takePicture() {
-    this.props.navigation.navigate('Camera');
+    this.props.navigation.navigate('Camera', { locID: this.state.locationID, revID: this.state.review.review_id });
   }
 
   confirmDeletePic() {
@@ -100,9 +125,22 @@ class ChangeReview extends ValidationComponent {
   }
 
   async deletePicture() {
-    console.log("Still needs to be done");
+    const route = '/location/'+ this.state.locationID + '/review/' + this.state.review.review_id;
+    const token = await getToken();
+    const headers = {'X-Authorization': token};
+    const response = await remove(route, headers);
+    if (response.code === 200) {
+      Alert.alert('Item Deleted Successfully');
+    } else if (response.code === 401) {
+      Alert.alert('You are not authorised to delete that review.');
+    } else if (response.code === 403) {
+      Alert.alert('You are not allowed to delete that review.');
+    } else if (response.code === 404) {
+      Alert.alert('This photo does not exist to be deleted.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
-
 
   render() {
     const pickerList = [

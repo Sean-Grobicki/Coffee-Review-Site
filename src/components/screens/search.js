@@ -37,7 +37,7 @@ class Search extends Component {
     const token = await getToken();
     const headers = {'X-Authorization': token};
     const response = await get(route, headers);
-    this.setState({locations: response});
+    this.setState({locations: response.data});
   }
 
   async getFavourites() {

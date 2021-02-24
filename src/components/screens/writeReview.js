@@ -40,24 +40,10 @@ class WriteReview extends Component {
       review_body: this.state.comment,
     });
     const response = await post(route, headers, body);
-    this.picturePrompt();
+    this.props.navigation.goBack();
   }
 
-  picturePrompt() {
-    Alert.alert(
-      'Picture',
-      'Do you want to add a picture to this review',
-      [
-        {
-          text: 'Yes',
-          onPress: () => this.props.navigation.navigate('Camera'),
-        },
-        {
-          text: 'No',
-          onPress: () => this.props.navigation.goBack(),
-        }],
-      );
-    }
+
 
   render() {
     const pickerList = [

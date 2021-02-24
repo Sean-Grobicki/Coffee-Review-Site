@@ -27,15 +27,19 @@ class Login extends Component
     };
   }
 
-
-  async login()
-  { 
-      const route = "/user/login";
-      const headers = { 'Content-Type': 'application/json' };
-      const body = JSON.stringify({ email: this.state.email, password: this.state.password,});
-      const response = await post(route,headers,body);
-      await storeData(response.id,response.token);
+  async login() { 
+    const route = "/user/login";
+    const headers = { 'Content-Type': 'application/json' };
+    const body = JSON.stringify({ email: this.state.email, password: this.state.password,});
+    const response = await post(route, headers, body);
+    if (response.code === 200) {
+      await storeData(response.data.id, response.data.token);
       this.props.navigation.navigate('Home');
+    } else if (response.code === 400) {
+      Alert.alert('An invalid email or password was entered.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   render()

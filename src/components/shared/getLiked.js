@@ -7,7 +7,7 @@ const getLiked = async () => {
   const route = '/user/'.concat(id);
   const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
   const response = await get(route, headers);
-  const reviews = response.liked_reviews;
+  const reviews = response.data.liked_reviews;
   let ids = [];
   reviews.forEach(review => {
     ids.push(review.review.review_id);

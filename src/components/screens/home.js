@@ -17,7 +17,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: '',
+      user: [],
       favourites: [],
       liked: [],
     };
@@ -28,7 +28,6 @@ class Home extends Component {
       this.getInfo();
     });
     this.getInfo();
-    
   }
 
   componentWillUnmount() {
@@ -42,7 +41,7 @@ class Home extends Component {
     const headers = { 'X-Authorization': token };
     const response = await get(route, headers);
     this.setState({
-      user: response,
+      user: response.data,
       favourites: await getFavourites(),
       liked: await getLiked(),
     });

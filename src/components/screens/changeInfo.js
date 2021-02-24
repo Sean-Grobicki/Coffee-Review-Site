@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Button,
+  Alert,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import ValidationComponent from 'react-native-form-validator';
@@ -34,7 +35,7 @@ class ChangeInfo extends ValidationComponent {
     const route = '/user/'.concat(id);
     const headers = { 'X-Authorization': tok };
     const response = await get(route, headers);
-    this.setState({ user: response });
+    this.setState({ user: response.data });
   }
 
   async changeInfo() {
@@ -51,6 +52,19 @@ class ChangeInfo extends ValidationComponent {
       const headers = { 'X-Authorization': this.state.token, 'Content-Type': 'application/json' };
       const body = this.getBody();
       const response = await patch(route, headers, body);
+      if (response.code === 200) {
+        Alert.alert('You have successfully updated your information.');
+      } else if (response.code === 400) {
+        Alert.alert('A bad request was sent to the server');
+      } else if (response.code === 401) {
+        Alert.alert('You are unauthorised to change this information');
+      } else if (response.code === 403) {
+        Alert.alert('You are forbidden to change this information');
+      } else if (response.code === 404) {
+        Alert.alert('This information cannot be found on the server.');
+      } else {
+        Alert.alert('Server Error');
+      }
     }
   }
 

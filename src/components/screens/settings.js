@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Button,
+  Alert,
   StatusBar,
 } from 'react-native';
 import { post } from '../../api/apiRequests';
@@ -23,8 +24,14 @@ class Settings extends Component
     const token = await getToken();
     const headers = {'X-Authorization': token , 'Content-Type': 'application/json'};
     const body = {};
-    const response = await post(route,headers,body);
-    this.props.navigation.popToTop();
+    const response = await post(route, headers, body);
+    if (response.code === 200) {
+      this.props.navigation.popToTop();
+    } else if (response.code === 400) {
+      Alert.alert('You are unauthorised to logout.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   render()
