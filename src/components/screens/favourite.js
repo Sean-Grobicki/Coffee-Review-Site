@@ -24,8 +24,7 @@ class Favourite extends Component {
     this.getLocations();
   }
 
-  componentWillUnmount()
-  {
+  componentWillUnmount() {
     this.focusListener();
   }
   
@@ -57,6 +56,7 @@ class Favourite extends Component {
                 priceRating={item.avg_price_rating}
                 qualityRating={item.avg_quality_rating}
                 cleanlienessRating={item.avg_clenliness_rating}
+                favourite={true}
               />
               <Button title="Look at Reviews" onPress={() => this.goLocation(item.location_id)} />
             </View>

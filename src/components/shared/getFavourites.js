@@ -16,7 +16,7 @@ const getFavourites = async () => {
 const isFavourite = (id, favourites) => {
   for (let index = 0; index < favourites.length; index++) {
       const element = favourites[index];
-      if(element.location_id === id) {
+      if(element === id) {
           return true;
       }
   }
