@@ -40,10 +40,18 @@ class WriteReview extends Component {
       review_body: this.state.comment,
     });
     const response = await post(route, headers, body);
-    this.props.navigation.goBack();
+    if (response.code === 201) {
+      this.props.navigation.goBack();
+    } else if (response.code === 400) {
+      Alert.alert('A bad request was sent to the server');
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to add this review');
+    } else if (response.code === 404) {
+      Alert.alert('This location cannot be found to review');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
-
-
 
   render() {
     const pickerList = [

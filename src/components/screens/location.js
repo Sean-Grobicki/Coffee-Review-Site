@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
   Button,
-  StatusBar,
   FlatList,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import ShowLocation from '../shared/showLocation';
 import Review from '../shared/review'; 
@@ -18,6 +16,7 @@ class Location extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       locationID: '',
       location: [],
       liked: [],
@@ -32,14 +31,25 @@ class Location extends Component {
     const route = '/location/' + this.props.route.params.locationID;
     const headers = { 'Content-Type': 'application/json' };
     const response = await get(route, headers);
-    this.setState({
-      locationID: this.props.route.params.locationID,
-      location: response.data,
-      liked: await getLiked(),
-    });
+    if (response.code === 200) {
+      // Add something with activity indicator
+      this.setState({
+        isLoading: false,
+        locationID: this.props.route.params.locationID,
+        location: response.data,
+        liked: await getLiked(),
+      });
+    } else if (response.code === 404) {
+      Alert.alert('This location cannot be found on the server.');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <ActivityIndicator />;
+    }
     return (
       <View>
         <ShowLocation
@@ -61,9 +71,7 @@ class Location extends Component {
           keyExtractor={(item, index) => item.review_id.toString()} />
       </View>
     );
-
   }
-
 }
 const styles = StyleSheet.create({
   review:

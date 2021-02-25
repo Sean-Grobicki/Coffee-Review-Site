@@ -5,6 +5,8 @@ import {
   FlatList,
   Text,
   Button,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Review from '../shared/review';
 import ShowLocation from '../shared/showLocation';
@@ -17,6 +19,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       user: [],
       favourites: [],
       liked: [],
@@ -40,11 +43,20 @@ class Home extends Component {
     const route = '/user/'.concat(id);
     const headers = { 'X-Authorization': token };
     const response = await get(route, headers);
-    this.setState({
-      user: response.data,
-      favourites: await getFavourites(),
-      liked: await getLiked(),
-    });
+    if (response.code === 200) {
+      this.setState({
+        isLoading: false,
+        user: response.data,
+        favourites: await getFavourites(),
+        liked: await getLiked(),
+      });
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to get this information.');
+    } else if (response.code === 404) {
+      Alert.alert('This users information wasn\'t found');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   goReview(review, locID) {
@@ -56,6 +68,9 @@ class Home extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <ActivityIndicator />;
+    }
     return (
       <View>
         <Text style={styles.title}>Your Reviews</Text>

@@ -5,6 +5,7 @@ import {
   FlatList,
   Button,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { getToken } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
@@ -14,6 +15,7 @@ class Favourite extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       locations: '',
     };
   }
@@ -36,21 +38,24 @@ class Favourite extends Component {
     const response = await get(route, headers);
     if (response.code === 200) {
       // Add something with activity indicator
+      this.setState({ isLoading: false,locations: response.data });
     } else if (response.code === 400) {
       Alert.alert('A bad request was sent to the server');
     } else if (response.code === 401) {
-      Alert.alert('You are unauthorised to change this review');
+      Alert.alert('You are unauthorised to get these locations');
     } else {
       Alert.alert('Server Error');
     }
-    this.setState({ locations: response.data });
   }
 
   goLocation(id) {
-    this.props.navigation.navigate('Location', {locationID: id, favourite: true});
+    this.props.navigation.navigate('Location', { locationID: id, favourite: true });
   }
 
   render() {
+    if(this.state.isLoading) {
+      return <ActivityIndicator />;
+    }
     return (
       <View>
         <Text> Your Favourites </Text>

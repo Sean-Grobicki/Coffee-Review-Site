@@ -36,7 +36,7 @@ class ChangeReview extends ValidationComponent {
     const body = this.getReviewBody();
     const response = await patch(route, headers, body);
     if (response.code === 200) {
-      // Add something with activity indicator
+      Alert.alert('Review has been updated.');
     } else if (response.code === 400) {
       Alert.alert('A bad request was sent to the server');
     } else if (response.code === 401) {
@@ -169,7 +169,6 @@ class ChangeReview extends ValidationComponent {
       </View>
     );
   }
-
 }
 
 export default ChangeReview;

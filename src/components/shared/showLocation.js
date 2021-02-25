@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getToken } from '../../api/asyncStorage';
@@ -27,10 +27,30 @@ class ShowLocation extends Component {
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
     if (!this.state.favourite) {
       const response = await post(route, headers, body);
-      this.setState({ favouriteText: 'star' });
+      if (response.code === 200) {
+        this.setState({ favouriteText: 'star' });
+      } else if (response.code === 401) {
+        Alert.alert('You are unauthorised to delete this review');
+      } else if (response.code === 403) {
+        Alert.alert('You are forbidden to delete this review');
+      } else if (response.code === 404) {
+        Alert.alert('This review cannot be found to delete.');
+      } else {
+        Alert.alert('Server Error');
+      }
     } else {
       const response = await remove(route, headers);
-      this.setState({ favouriteText: 'staro' });
+      if (response.code === 200) {
+        this.setState({ favouriteText: 'staro' });
+      } else if (response.code === 401) {
+        Alert.alert('You are unauthorised to delete this review');
+      } else if (response.code === 403) {
+        Alert.alert('You are forbidden to delete this review');
+      } else if (response.code === 404) {
+        Alert.alert('This review cannot be found to delete.');
+      } else {
+        Alert.alert('Server Error');
+      }
     }
     this.setState({ favourite: !this.state.favourite });
   }

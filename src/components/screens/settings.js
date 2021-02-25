@@ -7,10 +7,9 @@ import {
   Text,
   Button,
   Alert,
-  StatusBar,
 } from 'react-native';
 import { post } from '../../api/apiRequests';
-import { getToken } from '../../api/asyncStorage';
+import { getToken, removeItems } from '../../api/asyncStorage';
 
 class Settings extends Component
 {
@@ -26,8 +25,9 @@ class Settings extends Component
     const body = {};
     const response = await post(route, headers, body);
     if (response.code === 200) {
+      await removeItems();
       this.props.navigation.popToTop();
-    } else if (response.code === 400) {
+    } else if (response.code === 401) {
       Alert.alert('You are unauthorised to logout.');
     } else {
       Alert.alert('Server Error');

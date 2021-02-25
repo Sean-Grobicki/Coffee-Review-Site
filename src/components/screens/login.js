@@ -27,7 +27,7 @@ class Login extends Component
     };
   }
 
-  async login() { 
+  async login() {
     const route = "/user/login";
     const headers = { 'Content-Type': 'application/json' };
     const body = JSON.stringify({ email: this.state.email, password: this.state.password,});

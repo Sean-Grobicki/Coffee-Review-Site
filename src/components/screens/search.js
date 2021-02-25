@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   StatusBar,
+  Alert,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
@@ -15,7 +16,6 @@ import ShowLocation from '../shared/showLocation';
 import { get } from '../../api/apiRequests';
 import { getToken, getUserID } from '../../api/asyncStorage';
 import { getFavourites, isFavourite } from '../shared/getFavourites'; 
-
 
 class Search extends Component {
   constructor(props) {
@@ -37,7 +37,15 @@ class Search extends Component {
     const token = await getToken();
     const headers = {'X-Authorization': token};
     const response = await get(route, headers);
-    this.setState({locations: response.data});
+    if (response.code === 200) {
+      this.setState({ locations: response.data });
+    } else if (response.code === 400) {
+      Alert.alert('A bad request was sent to the server');
+    } else if (response.code === 401) {
+      Alert.alert('You are unauthorised to get this information');
+    } else {
+      Alert.alert('Server Error');
+    }
   }
 
   async getFavourites() {
