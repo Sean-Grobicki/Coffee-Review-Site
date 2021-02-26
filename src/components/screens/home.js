@@ -24,9 +24,6 @@ class Home extends Component {
       user: [],
       favourites: [],
       liked: [],
-      page: 0,
-      toShow: [],
-      pageNumbers: [],
     };
   }
 
@@ -54,7 +51,6 @@ class Home extends Component {
         favourites: await getFavourites(),
         liked: await getLiked(),
       });
-      this.createPages();
     } else if (response.code === 401) {
       Alert.alert('You are unauthorised to get this information.');
     } else if (response.code === 404) {
@@ -62,32 +58,6 @@ class Home extends Component {
     } else {
       Alert.alert('Server Error');
     }
-  }
-
-  createPages() {
-    const pages = [];
-    let pageCount = 0;
-    const reviews = this.state.user.reviews;
-    for (let i = 1; i <= reviews.length; i += 1) {
-      if (i % 3 === 0) {
-        pages[pageCount] = [reviews[i - 3], reviews[i - 2], reviews[i - 1]];
-        pageCount += 1;
-      }
-      if (i === reviews.length) {
-        const num = i % 3;
-        if (num === 2) {
-          pages[pageCount] = [reviews[i - 2], reviews[i - 1]];
-        } else {
-          pages[pageCount] = [reviews[i - 1]];
-        }
-        pageCount += 1;
-      }
-    }
-    const pageNumbers = [];
-    for (let number = 0; number < pages.length; number += 1) {
-      pageNumbers[number] = number;
-    }
-    this.setState({ toShow: pages, pageNumbers: pageNumbers });
   }
 
   goReview(review, locID) {
@@ -106,14 +76,14 @@ class Home extends Component {
       <View style={globalStyle.con}>
         <Text style={globalStyle.title}>Your Reviews</Text>
         <FlatList
-          data={this.state.toShow[this.state.page]}
+          data={this.state.user.reviews}
           renderItem={({ item }) => (
             <View style={styles.review}>
               <ShowLocation
                 location={item.location}
                 favourite={isFavourite(item.location.location_id, this.state.favourites)}
                 update={() => this.updateFavourites()}
-               />
+              />
               <Review
                 locID={item.location.location_id}
                 review={item.review}
@@ -125,19 +95,6 @@ class Home extends Component {
             </View>
           )}
           keyExtractor={(item) => item.review.review_id.toString()}
-        />
-        <FlatList
-          contentContainerStyle={globalStyle.pages}
-          data={this.state.pageNumbers}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
-              <Text style={globalStyle.pageText}>
-                Page
-                {item + 1}
-              </Text>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.toString()}
         />
       </View>
     );

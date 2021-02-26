@@ -43,13 +43,11 @@ class ChangeInfo extends ValidationComponent {
   async changeInfo() {
     this.validate(
       {
-        firstName: { required: true },
-        lastName: { required: true },
-        email: { required: true, email: true },
-        password: { minLength: 5, required: true, equalPassword: this.state.rPassword },
+        email: { email: true },
+        password: { minlength: 6, equalPassword: this.state.rPassword },
       },
     );
-    if (this.isFormValid) {
+    if (this.isFormValid()) {
       const route = '/user/'.concat(this.state.uID);
       const headers = { 'X-Authorization': this.state.token, 'Content-Type': 'application/json' };
       const body = this.getBody();
@@ -67,6 +65,8 @@ class ChangeInfo extends ValidationComponent {
       } else {
         Alert.alert('Server Error');
       }
+    } else {
+      Alert.alert(this.getErrorMessages());
     }
   }
 

@@ -29,7 +29,7 @@ class Signup extends ValidationComponent {
         firstName: { required: true },
         lastName: { required: true },
         email: { required: true, email: true },
-        password: { minLength: 5, required: true, equalPassword: this.state.rPassword },
+        password: { minlength: 6, required: true, equalPassword: this.state.rPassword },
       },
     );
     if (this.isFormValid()) {
@@ -61,8 +61,8 @@ class Signup extends ValidationComponent {
         <TextInput style={styles.text} placeholder="Enter First Name" onChangeText={(fName) => this.setState({ firstName: fName })} />
         <TextInput style={styles.text} placeholder="Enter Last Name" onChangeText={(lName) => this.setState({ lastName: lName })} />
         <TextInput style={styles.text} placeholder="Enter Email" onChangeText={(em) => this.setState({ email: em })} />
-        <TextInput style={styles.text} placeholder="Enter Password" onChangeText={(pass) => this.setState({ password: pass })} />
-        <TextInput style={styles.text} placeholder="Repeat Password" onChangeText={(rPass) => this.setState({ rPassword: rPass })} />
+        <TextInput style={styles.text} placeholder="Enter Password" secureTextEntry onChangeText={(pass) => this.setState({ password: pass })} />
+        <TextInput style={styles.text} placeholder="Repeat Password" secureTextEntry onChangeText={(rPass) => this.setState({ rPassword: rPass })} />
         <TouchableOpacity style={globalStyle.button} onPress={() => this.createUser()}>
           <Text style={globalStyle.buttonText}> Create Account </Text>
         </TouchableOpacity>

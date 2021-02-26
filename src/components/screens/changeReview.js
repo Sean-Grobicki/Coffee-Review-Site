@@ -43,6 +43,7 @@ class ChangeReview extends ValidationComponent {
     const response = await patch(route, headers, body);
     if (response.code === 200) {
       Alert.alert('Review has been updated.');
+      this.props.navigation.goBack();
     } else if (response.code === 400) {
       Alert.alert('A bad request was sent to the server');
     } else if (response.code === 401) {
@@ -131,7 +132,7 @@ class ChangeReview extends ValidationComponent {
   }
 
   async deletePicture() {
-    const route = '/location/'+ this.state.locationID + '/review/' + this.state.review.review_id;
+    const route = '/location/'+ this.state.locationID + '/review/' + this.state.review.review_id + '/photo';
     const token = await getToken();
     const headers = {'X-Authorization': token};
     const response = await remove(route, headers);

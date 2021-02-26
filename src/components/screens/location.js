@@ -26,7 +26,14 @@ class Location extends Component {
   }
 
   componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.getLocation();
+    });
     this.getLocation();
+  }
+
+  componentWillUnmount() {
+    this.focusListener();
   }
 
   async getLocation() {

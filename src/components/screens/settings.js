@@ -34,7 +34,7 @@ class Settings extends Component {
         <TouchableOpacity style={globalStyle.button} onPress={() => this.props.navigation.navigate('Change Information')}>
           <Text style={globalStyle.buttonText}> Change Settings </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={globalStyle.button} onPress={() => this.changeReview()}>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.logout()}>
           <Text style={globalStyle.buttonText}> Logout </Text>
         </TouchableOpacity>
       </View>
