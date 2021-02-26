@@ -11,22 +11,17 @@ import { storeData } from '../../api/asyncStorage';
 import { post } from '../../api/apiRequests';
 import globalStyle from '../../styles/globalStyle';
 
-class Login extends Component
-{
-  constructor(props)
-  {
+class Login extends Component {
+  constructor(props) {
     super(props);
-    this.state =
-    {
+    this.state = {
       email: '',
       password: '',
-      id: '',
-      session: '',
     };
   }
 
   async login() {
-    const route = "/user/login";
+    const route = '/user/login';
     const headers = { 'Content-Type': 'application/json' };
     const body = JSON.stringify({ email: this.state.email, password: this.state.password,});
     const response = await post(route, headers, body);
@@ -40,26 +35,21 @@ class Login extends Component
     }
   }
 
-  render()
-  {
+  render() {
     return (
-      <View style = {styles.container}>
-        <TextInput style = {styles.input} placeholder = "Enter your email" onChangeText = {(email) => this.setState({email:email})}/>
-        <TextInput style = {styles.input} secureTextEntry = {true} placeholder = "Enter your password" onChangeText = {(pword) => this.setState({password:pword})}/>
-        <TouchableOpacity style = {globalStyle.button} onPress = {() => this.login()}>
+      <View style={styles.container}>
+        <TextInput style={styles.input} placeholder="Enter your email" onChangeText={(email) => this.setState({ email:email })} />
+        <TextInput style={styles.input} secureTextEntry={true} placeholder="Enter your password" onChangeText={(pword) => this.setState({ password: pword })} />
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.login()}>
           <Text style={globalStyle.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style = {globalStyle.button} onPress = {() => this.props.navigation.navigate('Signup')}>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.props.navigation.navigate('Signup')}>
           <Text style={globalStyle.buttonText}>Create New Account</Text>
         </TouchableOpacity>
       </View>
     );
   }
-
 }
-export default Login;
-
-
 
 const styles = StyleSheet.create({
   container:
@@ -78,3 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default Login;

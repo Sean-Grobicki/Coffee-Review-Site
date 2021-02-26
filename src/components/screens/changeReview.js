@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  Text, ScrollView, Alert, StyleSheet
+  Text,
+  ScrollView,
+  Alert,
+  StyleSheet,
 } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -54,21 +57,21 @@ class ChangeReview extends ValidationComponent {
   }
 
   getReviewBody() {
-    let body = {};
+    const body = {};
     if (this.state.review.review_body !== this.state.comment && this.state.comment !== '') {
-      body['review_body'] = this.state.comment;
+      body.review_body = this.state.comment;
     }
     if (this.state.review.overall_rating !== this.state.ovrRating && this.state.ovrRating !== '') {
-      body['overall_rating'] = this.state.ovrRating;
+      body.overall_rating = this.state.ovrRating;
     }
     if (this.state.review.price_rating !== this.state.priceRating && this.state.priceRating !== '') {
-      body['price_rating'] = this.state.priceRating;
+      body.price_rating = this.state.priceRating;
     }
     if (this.state.review.quality_rating !== this.state.qualRating && this.state.qualRating !== '') {
-      body['quality_rating'] = this.state.qualRating;
+      body.quality_rating = this.state.qualRating;
     }
     if (this.state.review.clenliness_rating !== this.state.clenRating && this.state.clenRating !== '') {
-      body['clenliness_rating'] = this.state.clenRating;
+      body.clenliness_rating = this.state.clenRating;
     }
     return JSON.stringify(body);
   }

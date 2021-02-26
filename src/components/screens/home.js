@@ -7,9 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Touchable,
 } from 'react-native';
-import {BottomTabBarHeightContext} from '@react-navigation/bottom-tabs';
 import Review from '../shared/review';
 import ShowLocation from '../shared/showLocation';
 import { getFavourites, isFavourite } from '../shared/getFavourites';
@@ -67,17 +65,15 @@ class Home extends Component {
   }
 
   createPages() {
-    let pages = [];
+    const pages = [];
     let pageCount = 0;
     const reviews = this.state.user.reviews;
-    for (let i = 1; i <= reviews.length; i ++) {
+    for (let i = 1; i <= reviews.length; i += 1) {
       if (i % 3 === 0) {
         pages[pageCount] = [reviews[i - 3], reviews[i - 2], reviews[i - 1]];
-        pageCount = pageCount + 1;
+        pageCount += 1;
       }
-      console.log(i);
       if (i === reviews.length) {
-        console.log(i);
         const num = i % 3;
         if (num === 2) {
           pages[pageCount] = [reviews[i - 2], reviews[i - 1]];
@@ -87,15 +83,15 @@ class Home extends Component {
         pageCount += 1;
       }
     }
-    let pageNumbers = [];
-    for (let number = 0; number < pages.length; number++) {
+    const pageNumbers = [];
+    for (let number = 0; number < pages.length; number += 1) {
       pageNumbers[number] = number;
     }
-    this.setState({toShow: pages, pageNumbers: pageNumbers});
+    this.setState({ toShow: pages, pageNumbers: pageNumbers });
   }
 
   goReview(review, locID) {
-    this.props.navigation.navigate('Change Review',{review: review, locationID: locID});
+    this.props.navigation.navigate('Change Review',{ review: review, locationID: locID});
   }
 
   updateFavourites() {
@@ -103,7 +99,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.state.toShow);
     if (this.state.isLoading) {
       return <ActivityIndicator />;
     }
@@ -112,42 +107,41 @@ class Home extends Component {
         <Text style={globalStyle.title}>Your Reviews</Text>
         <FlatList
           data={this.state.toShow[this.state.page]}
-          renderItem={({ item }) =>
-            <View style = {styles.review}>
+          renderItem={({ item }) => (
+            <View style={styles.review}>
               <ShowLocation
                 location={item.location}
-                favourite={isFavourite(item.location.location_id,this.state.favourites)}
+                favourite={isFavourite(item.location.location_id, this.state.favourites)}
                 update={() => this.updateFavourites()}
                />
               <Review
-                locID= {item.location.location_id}
+                locID={item.location.location_id}
                 review={item.review}
-                liked={isLiked(item.review.review_id,this.state.liked)}
+                liked={isLiked(item.review.review_id, this.state.liked)}
               />
-              <TouchableOpacity style={globalStyle.button} onPress = {() => this.goReview(item.review,item.location.location_id)} >
+              <TouchableOpacity style={globalStyle.button} onPress={() => this.goReview(item.review,item.location.location_id)}>
                 <Text style={globalStyle.buttonText}> Change Review </Text>
               </TouchableOpacity>
             </View>
-          }
+          )}
           keyExtractor={(item) => item.review.review_id.toString()}
         />
-          <FlatList
-            contentContainerStyle={globalStyle.pages}
-            data={this.state.pageNumbers}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
-                <Text style={globalStyle.pageText}>
-                  Page {item + 1}
-                </Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.toString()}
-            />
+        <FlatList
+          contentContainerStyle={globalStyle.pages}
+          data={this.state.pageNumbers}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
+              <Text style={globalStyle.pageText}>
+                Page
+                {item + 1}
+              </Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.toString()}
+        />
       </View>
     );
-
   }
-
 }
 
 const styles = StyleSheet.create({

@@ -1,8 +1,6 @@
-import RNFetchBlob from 'react-native-fetch-blob';
-
 const SERVERURL = 'http://10.0.2.2:3333/api/1.0.0';
 
-const get = async(route, header) => {
+const get = async (route, header) => {
   return fetch(SERVERURL + route,
     {
       headers: header,
@@ -87,7 +85,7 @@ const remove = async (route, headers) => {
     });
 };
 
-const getImage = async(route, header) => {
+const getImage = async (route, header) => {
   return fetch(SERVERURL + route,
     {
       headers: header,

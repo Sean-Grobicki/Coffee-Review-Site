@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Button,
   Text,
   TextInput,
-  StatusBar,
   Alert,
   FlatList,
   TouchableOpacity,
@@ -22,8 +18,7 @@ import globalStyle from '../../styles/globalStyle';
 class Search extends Component {
   constructor(props) {
     super(props);
-    this.state =
-    {
+    this.state = {
       search: '',
       locations: '',
       favourites: '',
@@ -70,14 +65,14 @@ class Search extends Component {
       if (queries !== 0) {
         params += '&';
       }
-      params += 'q='+this.state.search;
+      params += 'q=' + this.state.search;
       queries += 1;
     }
     if (this.state.ovrFilter !== 0) {
       if (queries !== 0) {
         params += '&';
       }
-      params += 'overall_rating='+this.state.ovrFilter;
+      params += 'overall_rating=' + this.state.ovrFilter;
       queries += 1;
     }
     if (this.state.priceFilter !== 0) {
@@ -91,27 +86,27 @@ class Search extends Component {
       if (queries !== 0) {
         params += '&';
       }
-      params += 'quality_rating='+this.state.qualFilter;
+      params += 'quality_rating=' + this.state.qualFilter;
       queries += 1;
     }
     if (this.state.clenFilter !== 0) {
       if (queries !== 0) {
         params += '&';
       }
-      params += 'clenliness_rating='+this.state.clenFilter;
+      params += 'clenliness_rating=' + this.state.clenFilter;
       queries += 1;
     }
     return params;
   }
 
   createPages() {
-    let pages = [];
+    const pages = [];
     let pageCount = 0;
     const locations = this.state.locations;
-    for (let i = 1; i <= locations.length; i ++) {
+    for (let i = 1; i <= locations.length; i += 1) {
       if (i % 3 === 0) {
         pages[pageCount] = [locations[i - 3], locations[i - 2], locations[i - 1]];
-        pageCount = pageCount + 1;
+        pageCount += 1;
       }
       if (i === locations.length) {
         const num = i % 3;
@@ -123,11 +118,11 @@ class Search extends Component {
         pageCount += 1;
       }
     }
-    let pageNumbers = [];
-    for (let number = 0; number < pages.length; number++) {
+    const pageNumbers = [];
+    for (let number = 0; number < pages.length; number += 1) {
       pageNumbers[number] = number;
     }
-    this.setState({toShow: pages, pageNumbers: pageNumbers});
+    this.setState({ toShow: pages, pageNumbers: pageNumbers });
   }
 
   render() {
@@ -143,10 +138,10 @@ class Search extends Component {
       return (
         <View style={globalStyle.con}>
           <TextInput style={globalStyle.text} placeholder="Search Cafe's" onChangeText={(input) => this.setState({ search: input })} />
-          <TouchableOpacity style={globalStyle.button} onPress={() => this.setState({filterOptions: false})} >
+          <TouchableOpacity style={globalStyle.button} onPress={() => this.setState({ filterOptions: false })}>
             <Text style={globalStyle.buttonText}> Filter </Text>
           </TouchableOpacity>
-          <Text style={globalStyle.text} > Average Overall Rating </Text>
+          <Text style={globalStyle.text}> Average Overall Rating </Text>
           <DropDownPicker globalTextStyle={globalStyle.text} items={pickerList} containerStyle={{ height: 40 }} defaultValue={0} onChangeItem={(item) => this.setState({ ovrFilter: item.value })} />
           <Text style={globalStyle.text}> Average Price Rating </Text>
           <DropDownPicker globalTextStyle={globalStyle.text} items={pickerList} containerStyle={{ height: 40 }} defaultValue={0} onChangeItem={(item) => this.setState({ priceFilter: item.value })} />
@@ -163,43 +158,44 @@ class Search extends Component {
     }
     return (
       <View style={globalStyle.con}>
-        <TextInput style={globalStyle.text} placeholder = "Search Cafe's" onChangeText = {(input) => this.setState({search: input})}></TextInput>
+        <TextInput style={globalStyle.text} placeholder="Search Cafe's" onChangeText={(input) => this.setState({ search: input })} />
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={globalStyle.button} onPress={() => this.setState({filterOptions: true})} >
-            <Text style={globalStyle.buttonText} >Filter</Text>
+            <Text style={globalStyle.buttonText}>Filter</Text>
           </TouchableOpacity>
           <TouchableOpacity style={globalStyle.button} onPress={() => this.getLocations()}>
             <Text style={globalStyle.buttonText}>Search</Text>
           </TouchableOpacity>
         </View>
         <FlatList
-            style={styles.flatList}
-            data={this.state.toShow[this.state.page]}
-            renderItem={({item}) =>
+          style={styles.flatList}
+          data={this.state.toShow[this.state.page]}
+          renderItem={({ item }) => (
             <View>
               <ShowLocation
-              location={item}
-              favourite = {isFavourite(item.location_id,this.state.favourites)}
+                location={item}
+                favourite={isFavourite(item.location_id,this.state.favourites)}
               />
-              <TouchableOpacity style={globalStyle.button} onPress={() => this.goLocation(item.location_id)} >
+              <TouchableOpacity style={globalStyle.button} onPress={() => this.goLocation(item.location_id)}>
                 <Text style={globalStyle.buttonText}> Check Reviews </Text>
               </TouchableOpacity>
-            </View>  
-          }
-          keyExtractor={(item, index) => item.location_id.toString()}
+            </View>
+          )}
+          keyExtractor={(item) => item.location_id.toString()}
         />
         <FlatList
-            contentContainerStyle={globalStyle.pages}
-            data={this.state.pageNumbers}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
-                <Text style={globalStyle.pageText}>
-                  Page {item + 1}
-                </Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.toString()}
-          />
+          contentContainerStyle={globalStyle.pages}
+          data={this.state.pageNumbers}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({ page: item })}>
+              <Text style={globalStyle.pageText}>
+                Page
+                {item + 1}
+              </Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.toString()}
+        />
       </View>
     );
   }

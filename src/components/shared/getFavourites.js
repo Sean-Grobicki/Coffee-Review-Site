@@ -6,19 +6,19 @@ const getFavourites = async () => {
   const token = await getToken();
   const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
   const response = await get(route, headers);
-  let ids = [];
-  response.data.forEach(location => {
+  const ids = [];
+  response.data.forEach((location) => {
     ids.push(location.location_id);
   });
   return ids;
 };
 
 const isFavourite = (id, favourites) => {
-  for (let index = 0; index < favourites.length; index++) {
-      const element = favourites[index];
-      if(element === id) {
-          return true;
-      }
+  for (let index = 0; index < favourites.length; index += 1) {
+    const element = favourites[index];
+    if (element === id) {
+      return true;
+    }
   }
   return false;
 };

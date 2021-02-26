@@ -53,13 +53,13 @@ class Favourite extends Component {
   }
 
   createPages() {
-    let pages = [];
+    const pages = [];
     let pageCount = 0;
     const locations = this.state.locations;
-    for (let i = 1; i <= locations.length; i ++) {
+    for (let i = 1; i <= locations.length; i += 1) {
       if (i % 3 === 0) {
         pages[pageCount] = [locations[i - 3], locations[i - 2], locations[i - 1]];
-        pageCount = pageCount + 1;
+        pageCount += 1;
       }
       if (i === locations.length) {
         const num = i % 3;
@@ -71,8 +71,8 @@ class Favourite extends Component {
         pageCount += 1;
       }
     }
-    let pageNumbers = [];
-    for (let number = 0; number < pages.length; number++) {
+    const pageNumbers = [];
+    for (let number = 0; number < pages.length; number += 1) {
       pageNumbers[number] = number;
     }
     this.setState({toShow: pages, pageNumbers: pageNumbers});
@@ -83,7 +83,7 @@ class Favourite extends Component {
   }
 
   render() {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return <ActivityIndicator />;
     }
     return (
@@ -95,7 +95,7 @@ class Favourite extends Component {
             <View>
               <ShowLocation
                 location={item}
-                favourite={true}
+                favourite
               />
               <TouchableOpacity style={globalStyle.button} onPress={() => this.goLocation(item.location_id)} >
                 <Text style={globalStyle.buttonText}> Check Reviews </Text>

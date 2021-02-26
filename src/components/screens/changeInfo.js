@@ -91,7 +91,7 @@ class ChangeInfo extends ValidationComponent {
     return (
       <View style={styles.container}>
         <TextInput style={globalStyle.text} defaultValue={this.state.user.first_name} onChangeText={(fName) => this.setState({ firstName: fName })} />
-        <TextInput style={globalStyle.text} defaultValue={this.state.user.last_name} onChangeText={(lName) => this.setState({lastName: lName })} />
+        <TextInput style={globalStyle.text} defaultValue={this.state.user.last_name} onChangeText={(lName) => this.setState({ lastName: lName })} />
         <TextInput style={globalStyle.text} defaultValue={this.state.user.email} onChangeText={(email) => this.setState({ email: email })} />
         <TextInput style={globalStyle.text} placeholder="Enter New Password" secureTextEntry={true} onChangeText={(password) => this.setState({ password: password })} />
         <TextInput style={globalStyle.text} placeholder="Repeat New Password" secureTextEntry={true} onChangeText={(rPassword) => this.setState({ rPassword: rPassword })} />

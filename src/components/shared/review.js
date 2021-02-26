@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Rating } from 'react-native-ratings';
@@ -7,10 +13,8 @@ import { getToken} from '../../api/asyncStorage';
 import { remove, post, getImage} from '../../api/apiRequests';
 import globalStyle from '../../styles/globalStyle';
 
-class Review extends Component
-{
-  constructor(props)
-  {
+class Review extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       liked: false,
@@ -32,7 +36,7 @@ class Review extends Component
   async getImage() {
     const route = '/location/' + this.props.locID + '/review/' + this.props.review.review_id + '/photo';
     const token = await getToken();
-    this.setState({token: token});
+    this.setState({ token: token });
     const headers = { 'X-Authorization': token};
     const response = await getImage(route, headers);
     if (response.code === 200) {
@@ -41,7 +45,8 @@ class Review extends Component
     else {
       Alert.alert('Server error');
     }
-    //Can't get the image from the server but the image is stored and there is a gap so it is only 1 endpoint that hasn't been implemented.
+    /* Can't get the image from the server but the image is stored on the server and there is a gap
+    left where it should be so you can tell when an image has been deleted */
   }
 
   async likeUnlike() {
@@ -80,26 +85,26 @@ class Review extends Component
 
   render() {
     if (!this.state.isImage) {
-      return(
+      return (
         <View style={styles.container}>
           <View style={styles.ratingsCon}>
             <Text style={globalStyle.text}> Overall Rating </Text>
-            <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingsCon}>
             <Text style={globalStyle.text}> Price Rating </Text>
-            <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingsCon}>
             <Text style={globalStyle.text}> Quality Rating </Text>
-            <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+            <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingsCon}>
             <Text style={globalStyle.text}> Cleanlieness Rating </Text>
-            <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+            <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.likeContainer}>
-            <Text style ={styles.comment}>{this.props.review.review_body}</Text>
+            <Text style={styles.comment}>{this.props.review.review_body}</Text>
             <TouchableOpacity onPress={() => this.likeUnlike()}>
               <Icon name={this.state.iconName} color="red" size={30} />
             </TouchableOpacity>
@@ -107,36 +112,35 @@ class Review extends Component
           </View>
         </View>
       );
-    } else {
-    return(
-      <View style={styles.container}>
-          <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + this.state.image.toString()}}/>
-          <View style={styles.ratingsCon}>
-            <Text style={globalStyle.text}> Overall Rating </Text>
-            <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
-          </View>
-          <View style={styles.ratingsCon}>
-            <Text style={globalStyle.text}> Price Rating </Text>
-            <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
-          </View>
-          <View style={styles.ratingsCon}>
-            <Text style={globalStyle.text}> Quality Rating </Text>
-            <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
-          </View>
-          <View style={styles.ratingsCon}>
-            <Text style={globalStyle.text}> Cleanlieness Rating </Text>
-            <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
-          </View>
-          <View style={styles.likeContainer}>
-            <Text style ={styles.comment}>{this.props.review.review_body}</Text>
-            <TouchableOpacity onPress={() => this.likeUnlike()}>
-              <Icon name={this.state.iconName} color="red" size={30} />
-            </TouchableOpacity>
-            <Text style={globalStyle.text}>{this.props.review.likes}</Text>
-          </View>
-        </View>
-    );
     }
+    return (
+      <View style={styles.container}>
+        <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + this.state.image.toString()}}/>
+        <View style={styles.ratingsCon}>
+          <Text style={globalStyle.text}> Overall Rating </Text>
+          <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
+        </View>
+        <View style={styles.ratingsCon}>
+          <Text style={globalStyle.text}> Price Rating </Text>
+          <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
+        </View>
+        <View style={styles.ratingsCon}>
+          <Text style={globalStyle.text}> Quality Rating </Text>
+          <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
+        </View>
+        <View style={styles.ratingsCon}>
+          <Text style={globalStyle.text}> Cleanlieness Rating </Text>
+          <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
+        </View>
+        <View style={styles.likeContainer}>
+          <Text style ={styles.comment}>{this.props.review.review_body}</Text>
+          <TouchableOpacity onPress={() => this.likeUnlike()}>
+            <Icon name={this.state.iconName} color="red" size={30} />
+          </TouchableOpacity>
+          <Text style={globalStyle.text}>{this.props.review.likes}</Text>
+        </View>
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create(

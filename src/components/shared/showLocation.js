@@ -62,32 +62,37 @@ class ShowLocation extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.allRatingsCon}>
-          <Text style={globalStyle.text}>Name: {this.props.location.location_name}</Text>
-          <Text style={globalStyle.text}>Place: {this.props.location.location_town}</Text>
+          <Text style={globalStyle.text}>
+            Name:
+            {this.props.location.location_name}
+          </Text>
+          <Text style={globalStyle.text}>
+            Place:
+            {this.props.location.location_town}
+          </Text>
           <View style={styles.ratingCon}>
             <Text style={globalStyle.text}>Overall Rating </Text>
-            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingCon}>
             <Text style={globalStyle.text}>Price Rating </Text>
-            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingCon}>
             <Text style={globalStyle.text}>Quality Rating </Text>
-            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
           <View style={styles.ratingCon}>
             <Text style={globalStyle.text}>Cleanlieness Rating </Text>
-            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+            <Rating startingValue={this.props.location.avg_overall_rating} ratingCount={5} imageSize={20} type="custom" ratingColor="red" tintColor="ghostwhite" readonly />
           </View>
         </View>
         <View style={styles.imageCon}>
           <TouchableOpacity onPress={() => this.favouriteLocation()}>
             <Icon name={this.state.favouriteText} size={25} color="red" />
           </TouchableOpacity>
-          <Image style={styles.image} source={{ uri: this.props.location.photo_path }}/>
+          <Image style={styles.image} source={{ uri: this.props.location.photo_path }} />
         </View>
-
       </View>
     );
   }

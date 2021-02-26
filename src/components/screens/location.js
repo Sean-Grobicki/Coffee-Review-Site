@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  ScrollView,
   View,
   TouchableOpacity,
   Text,
@@ -35,7 +34,6 @@ class Location extends Component {
     const headers = { 'Content-Type': 'application/json' };
     const response = await get(route, headers);
     if (response.code === 200) {
-      // Add something with activity indicator
       this.setState({
         isLoading: false,
         locationID: this.props.route.params.locationID,
@@ -56,25 +54,26 @@ class Location extends Component {
     return (
       <View style={globalStyle.con}>
         <ShowLocation
-            location={this.state.location}
-            favourite={this.props.route.params.favourite}
-          />
-        <TouchableOpacity style={globalStyle.button} onPress = {() => this.props.navigation.navigate('WriteReview',{locationID: this.state.locationID})} >
-                <Text style={globalStyle.buttonText}> Write a Review </Text>
+          location={this.state.location}
+          favourite={this.props.route.params.favourite}
+        />
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.props.navigation.navigate('WriteReview', { locationID: this.state.locationID })}>
+          <Text style={globalStyle.buttonText}> Write a Review </Text>
         </TouchableOpacity>
         <FlatList
-            style={globalStyle.flatlist}
-            data={this.state.location.location_reviews}
-            renderItem={({item}) =>
-            <View style = {styles.review}>
+          style={globalStyle.flatlist}
+          data={this.state.location.location_reviews}
+          renderItem={({item}) => (
+            <View style={styles.review}>
               <Review
                 locID={this.state.locationID}
                 review={item}
-                liked={ isLiked(item.review_id,this.state.liked )}
+                liked={isLiked(item.review_id, this.state.liked)}
               />
-            </View>  
-          }
-          keyExtractor={(item, index) => item.review_id.toString()} />
+            </View>
+          )}
+          keyExtractor={(item) => item.review_id.toString()} 
+        />
       </View>
     );
   }

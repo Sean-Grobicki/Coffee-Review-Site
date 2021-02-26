@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Button,
   StyleSheet,
   Text,
   Alert,
@@ -66,17 +65,17 @@ class WriteReview extends Component {
       { label: '5', value: 5 },
     ];
     return (
-      <View style ={styles.container}>
+      <View style={styles.container}>
         <Text style={globalStyle.text}> Overall Rating: </Text>
         <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Overall Rating: " containerStyle={{ height: 40, width: '100%' }} items={pickerList} onChangeItem={(item) => this.setState({ ovrRating: item.value })} />
         <Text style={globalStyle.text}> Price Rating: </Text>
-        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Price Rating: " containerStyle={{ height: 40, width: '100%'  }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Price Rating: " containerStyle={{ height: 40, width: '100%' }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
         <Text style={globalStyle.text}> Quality Rating: </Text>
-        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Quality Rating: " containerStyle={{ height: 40, width: '100%'}} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Quality Rating: " containerStyle={{ height: 40, width: '100%' }} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
         <Text style={globalStyle.text}> Cleanlieness Rating: </Text>
-        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40, width: '100%'}} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40, width: '100%' }} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
         <TextInput style={styles.comment} placeholder="Enter your comments: " onChangeText={(com) => this.setState({ comment: com })} />
-        <TouchableOpacity style={styles.button} onPress={() => this.sendReview()} >
+        <TouchableOpacity style={styles.button} onPress={() => this.sendReview()}>
           <Text style={globalStyle.buttonText}> Finish Review </Text>
         </TouchableOpacity>
       </View>

@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
-import { Text, StyleSheet, View, Alert } from 'react-native';
+import React, { Component } from 'react';
+import {
+  Text,
+  StyleSheet,
+  View,
+  Alert,
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { post } from '../../api/apiRequests';
 import { getToken } from '../../api/asyncStorage';
 
 class Camera extends Component {
-    constructor(props) {
-        super(props)
-    }
 
   async takePicture() {
     if (this.camera) {
@@ -38,33 +40,32 @@ class Camera extends Component {
     } else {
       Alert.alert('Server Error');
     }
-        
-    }
+  }
 
-    render() {
-        return (
-          <View style={styles.container}>
-            <RNCamera
-              ref={ref => {
-                this.camera = ref;
-              }}
-              style={styles.preview}
-              captureAudio={false}
-            />
-            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-              <TouchableOpacity 
-                onPress={this.takePicture.bind(this)} 
-                style={styles.capture}
-               >
-                <Text style={{ fontSize: 16 }}>
-                CAPTURE
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      }      
-    }
+  render() {
+    return (
+      <View style={styles.container}>
+        <RNCamera
+          ref={(ref) => {
+            this.camera = ref;
+          }}
+          style={styles.preview}
+          captureAudio={false}
+        />
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity
+            onPress={() => this.takePicture()}
+            style={styles.capture}
+          >
+            <Text style={{ fontSize: 16 }}>
+              CAPTURE
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create(
   {

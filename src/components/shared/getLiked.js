@@ -8,8 +8,8 @@ const getLiked = async () => {
   const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
   const response = await get(route, headers);
   const reviews = response.data.liked_reviews;
-  let ids = [];
-  reviews.forEach(review => {
+  const ids = [];
+  reviews.forEach((review) => {
     ids.push(review.review.review_id);
   });
   return ids;
@@ -17,10 +17,10 @@ const getLiked = async () => {
 
 const isLiked = (id, liked) => {
   for (let index = 0; index < liked.length; index += 1) {
-      const element = liked[index];
-      if(element === id) {
-          return true;
-      }
+    const element = liked[index];
+    if (element === id) {
+      return true;
+    }
   }
   return false;
 };
