@@ -28,7 +28,7 @@ class Camera extends Component {
     const body = data;
     const response = await post(route, headers, body);
     if (response.code === 200) {
-      this.props.navigation.navigate.goBack();
+      this.props.navigation.goBack();
     } else if (response.code === 400) {
       Alert.alert('A bad request was sent to the server');
     } else if (response.code === 401) {
@@ -53,8 +53,8 @@ class Camera extends Component {
             />
             <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
               <TouchableOpacity 
-                      onPress={this.takePicture.bind(this)} 
-         style={styles.capture}
+                onPress={this.takePicture.bind(this)} 
+                style={styles.capture}
                >
                 <Text style={{ fontSize: 16 }}>
                 CAPTURE
@@ -63,17 +63,32 @@ class Camera extends Component {
             </View>
           </View>
         );
-      }
-    
-      
+      }      
     }
-    
-    const styles = StyleSheet.create({
-      container: { flex: 1, flexDirection: 'column'  },
-      preview: { flex: 1, justifyContent: 'flex-end', alignItems: 'center' },
-      capture: { flex: 0, borderRadius: 5, padding: 15, paddingHorizontal: 20,
-        alignSelf: 'center', margin: 20, }
-    });
-    
+
+const styles = StyleSheet.create(
+  {
+    container:
+    {
+      flex: 1,
+      flexDirection: 'column',
+    },
+    preview:
+    {
+      flex: 7,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    capture:
+    {
+      flex: 1,
+      borderRadius: 5,
+      padding: 15,
+      paddingHorizontal: 20,
+      alignSelf: 'center',
+      margin: 20,
+    },
+  },
+);
 
 export default Camera;

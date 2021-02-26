@@ -26,7 +26,7 @@ const getUserID = async () => {
 
 const getToken = async () => {
   try {
-    return await AsyncStorage.getItem(SESSION_KEY).then((value) =>{
+    return await AsyncStorage.getItem(SESSION_KEY).then((value) => {
       if (value) {
         return value;
       }
@@ -36,8 +36,18 @@ const getToken = async () => {
   }
 };
 
+const removeItems = async () => {
+  try {
+    await AsyncStorage.removeItem(ID_KEY);
+    await AsyncStorage.removeItem(SESSION_KEY);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   storeData: storeData,
   getUserID: getUserID,
   getToken: getToken,
+  removeItems: removeItems,
 };

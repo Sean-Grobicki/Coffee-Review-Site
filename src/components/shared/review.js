@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { Rating } from 'react-native-ratings';
 import { getToken} from '../../api/asyncStorage';
 import { remove, post, getImage} from '../../api/apiRequests';
+import globalStyle from '../../styles/globalStyle';
 
 class Review extends Component
 {
@@ -35,8 +37,8 @@ class Review extends Component
     const response = await getImage(route, headers);
     if (response.code === 200) {
       this.setState({ image: response.data, isImage: true });
-    } else if (response.code === 404) {
-    } else {
+    } else if (response.code === 404) {}
+    else {
       Alert.alert('Server error');
     }
   }
@@ -78,28 +80,60 @@ class Review extends Component
   render() {
     if (!this.state.isImage) {
       return(
-        <View>
-            <Text>Likes: {this.props.review.likes}</Text>
-            <Text>Comment: {this.props.review.review_body}</Text>
-            <Text>Overall Rating: {this.props.review.overall_rating} Price Rating: {this.props.review.price_rating}</Text>
-            <Text>Quality Rating: {this.props.review.quality_rating} Cleanlieness Rating: {this.props.review.clenliness_rating}</Text>
+        <View style={styles.container}>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Overall Rating </Text>
+            <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Price Rating </Text>
+            <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Quality Rating </Text>
+            <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Cleanlieness Rating </Text>
+            <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+          </View>
+          <View style={styles.likeContainer}>
+            <Text style ={styles.comment}>{this.props.review.review_body}</Text>
             <TouchableOpacity onPress={() => this.likeUnlike()}>
               <Icon name={this.state.iconName} color="red" size={30} />
             </TouchableOpacity>
+            <Text style={globalStyle.text}>{this.props.review.likes}</Text>
+          </View>
         </View>
       );
     } else {
     return(
-      <View>
-          <Image style={styles.image}/>
-          <Text>Likes: {this.props.review.likes}</Text>
-          <Text>Comment: {this.props.review.review_body}</Text>
-          <Text>Overall Rating: {this.props.review.overall_rating} Price Rating: {this.props.review.price_rating}</Text>
-          <Text>Quality Rating: {this.props.review.quality_rating} Cleanlieness Rating: {this.props.review.clenliness_rating}</Text>
-          <TouchableOpacity onPress={() => this.likeUnlike()}>
-            <Icon name={this.state.iconName} color="red" size={25} />
-          </TouchableOpacity>
-      </View>
+      <View style={styles.container}>
+          <Image style={styles.image} source={this.state.image}/>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Overall Rating </Text>
+            <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Price Rating </Text>
+            <Rating startingValue={this.props.review.price_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Quality Rating </Text>
+            <Rating startingValue={this.props.review.quality_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+          </View>
+          <View style={styles.ratingsCon}>
+            <Text style={globalStyle.text}> Cleanlieness Rating </Text>
+            <Rating startingValue={this.props.review.clenliness_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true}/>
+          </View>
+          <View style={styles.likeContainer}>
+            <Text style ={styles.comment}>{this.props.review.review_body}</Text>
+            <TouchableOpacity onPress={() => this.likeUnlike()}>
+              <Icon name={this.state.iconName} color="red" size={30} />
+            </TouchableOpacity>
+            <Text style={globalStyle.text}>{this.props.review.likes}</Text>
+          </View>
+        </View>
     );
     }
   }
@@ -109,13 +143,32 @@ const styles = StyleSheet.create(
     container:
     {
       flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      backgroundColor: 'ghostwhite',
     },
     image:
     {
       width: 100,
       height: 100,
+    },
+    likeContainer:
+    {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    ratingsCon:
+    {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      margin: '1%',
+    },
+    comment:
+    {
+      marginRight: 'auto',
+      marginLeft: '1%',
+      fontFamily: 'monospace',
+      maxWidth: '80%',
     },
   })
 

@@ -21,8 +21,8 @@ import { NavigationContainer } from '@react-navigation/native';
       return (
         <SearchStack.Navigator>
             <SearchStack.Screen name = "Search" component = {Search} options = {{headerShown: false}}/>
-            <SearchStack.Screen name = "Location" component = {Location}/>
-            <SearchStack.Screen name = "WriteReview" component = {WriteReview}/>
+            <SearchStack.Screen name = "Location" component = {Location} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
+            <SearchStack.Screen name = "WriteReview" component = {WriteReview} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
         </SearchStack.Navigator>
       );
     }

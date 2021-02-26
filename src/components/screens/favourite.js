@@ -3,13 +3,15 @@ import {
   View,
   Text,
   FlatList,
-  Button,
+  StyleSheet,
   Alert,
   ActivityIndicator,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getToken } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
 import ShowLocation from '../shared/showLocation';
+import globalStyle from '../../styles/globalStyle';
 
 class Favourite extends Component {
   constructor(props) {
@@ -57,8 +59,8 @@ class Favourite extends Component {
       return <ActivityIndicator />;
     }
     return (
-      <View>
-        <Text> Your Favourites </Text>
+      <View style={globalStyle.con}>
+        <Text style={globalStyle.title}> Your Favourites </Text>
         <FlatList
           data={this.state.locations}
           renderItem={({ item }) => (
@@ -67,7 +69,9 @@ class Favourite extends Component {
                 location={item}
                 favourite={true}
               />
-              <Button title="Look at Reviews" onPress={() => this.goLocation(item.location_id)} />
+              <TouchableOpacity style={globalStyle.button} onPress={() => this.goLocation(item.location_id)} >
+                <Text style={globalStyle.buttonText}> Check Reviews </Text>
+              </TouchableOpacity>
             </View>
           )}
           keyExtractor={(item) => item.location_id.toString()}

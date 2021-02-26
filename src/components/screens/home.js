@@ -4,16 +4,19 @@ import {
   View,
   FlatList,
   Text,
-  Button,
+  TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Touchable,
 } from 'react-native';
+import {BottomTabBarHeightContext} from '@react-navigation/bottom-tabs';
 import Review from '../shared/review';
 import ShowLocation from '../shared/showLocation';
 import { getFavourites, isFavourite } from '../shared/getFavourites';
 import { getLiked, isLiked } from '../shared/getLiked';
 import { getToken, getUserID } from '../../api/asyncStorage';
 import { get } from '../../api/apiRequests';
+import globalStyle from '../../styles/globalStyle';
 
 class Home extends Component {
   constructor(props) {
@@ -23,6 +26,9 @@ class Home extends Component {
       user: [],
       favourites: [],
       liked: [],
+      page: 0,
+      toShow: [],
+      pageNumbers: [],
     };
   }
 
@@ -50,6 +56,7 @@ class Home extends Component {
         favourites: await getFavourites(),
         liked: await getLiked(),
       });
+      this.createPages();
     } else if (response.code === 401) {
       Alert.alert('You are unauthorised to get this information.');
     } else if (response.code === 404) {
@@ -57,6 +64,21 @@ class Home extends Component {
     } else {
       Alert.alert('Server Error');
     }
+  }
+
+  createPages() {
+    let pages = [];
+    let pageCount = 0;
+    const reviews = this.state.user.reviews;
+    for (let i = 0; i < reviews.length; i += 3) {
+      pages[pageCount] = [ reviews[i + 2], reviews[i + 1], reviews[i]] ;
+      pageCount = pageCount + 1;
+    }
+    let pageNumbers = [];
+    for (let number = 0; number < pages.length; number++) {
+      pageNumbers[number] = number;
+    }
+    this.setState({toShow: pages, pageNumbers: pageNumbers});
   }
 
   goReview(review, locID) {
@@ -72,10 +94,10 @@ class Home extends Component {
       return <ActivityIndicator />;
     }
     return (
-      <View>
-        <Text style={styles.title}>Your Reviews</Text>
+      <View style={globalStyle.con}>
+        <Text style={globalStyle.title}>Your Reviews</Text>
         <FlatList
-          data={this.state.user.reviews}
+          data={this.state.toShow[this.state.page]}
           renderItem={({ item }) =>
             <View style = {styles.review}>
               <ShowLocation
@@ -88,11 +110,25 @@ class Home extends Component {
                 review={item.review}
                 liked={isLiked(item.review.review_id,this.state.liked)}
               />
-              <Button title="Change Review" onPress = {() =>this.goReview(item.review,item.location.location_id)}/>
+              <TouchableOpacity style={globalStyle.button} onPress = {() => this.goReview(item.review,item.location.location_id)} >
+                <Text style={globalStyle.buttonText}> Change Review </Text>
+              </TouchableOpacity>
             </View>
           }
           keyExtractor={(item) => item.review.review_id.toString()}
         />
+          <FlatList
+            contentContainerStyle={globalStyle.pages}
+            data={this.state.pageNumbers}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
+                <Text style={globalStyle.pageText}>
+                  Page {item + 1}
+                </Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.toString()}
+            />
       </View>
     );
 
@@ -105,12 +141,6 @@ const styles = StyleSheet.create({
   {
     borderColor: 'black',
     borderWidth: 2,
-  },
-  title:
-  {
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
   },
 });
 

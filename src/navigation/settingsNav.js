@@ -16,9 +16,9 @@ import React, { Component } from 'react';
     render()
     {
       return (
-        <SettingsNav.Navigator>
-            <SettingsNav.Screen name = "Settings" component = {Settings}/>
-            <SettingsNav.Screen name = "ChangeInfo" component = {ChangeInfo}/>
+        <SettingsNav.Navigator >
+            <SettingsNav.Screen name = "Settings" component = {Settings} options={{headerShown: false}} />
+            <SettingsNav.Screen name = "Change Information" component = {ChangeInfo} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
         </SettingsNav.Navigator>
       );
     }

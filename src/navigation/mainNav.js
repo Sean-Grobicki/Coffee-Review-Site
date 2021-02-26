@@ -53,8 +53,14 @@ class MainNav extends Component {
       })}
       tabBarOptions ={{
         activeTintColor: 'red',
-        inactiveTintColor: 'red'
-      }}>
+        inactiveTintColor: 'red',
+        labelStyle: {
+          fontFamily: 'monospace',
+          fontSize: 12,
+        },
+      }
+
+      } >
         <TabNavigation.Screen name = "Home" component = {HomeNav}/>
         <TabNavigation.Screen name = "Search" component = {SearchNav}/>
         <TabNavigation.Screen name = "Favourite" component = {FavouriteNav}/>

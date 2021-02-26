@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  ScrollView,
   View,
-  Button,
+  TouchableOpacity,
+  Text,
   FlatList,
   Alert,
   ActivityIndicator,
@@ -11,6 +13,7 @@ import ShowLocation from '../shared/showLocation';
 import Review from '../shared/review'; 
 import { get } from '../../api/apiRequests';
 import { getLiked, isLiked } from '../shared/getLiked';
+import globalStyle from '../../styles/globalStyle';
 
 class Location extends Component {
   constructor(props) {
@@ -51,13 +54,16 @@ class Location extends Component {
       return <ActivityIndicator />;
     }
     return (
-      <View>
+      <View style={globalStyle.con}>
         <ShowLocation
             location={this.state.location}
             favourite={this.props.route.params.favourite}
           />
-        <Button title = "Write a review" onPress = {() => this.props.navigation.navigate('WriteReview',{locationID: this.state.locationID})}></Button>
+        <TouchableOpacity style={globalStyle.button} onPress = {() => this.props.navigation.navigate('WriteReview',{locationID: this.state.locationID})} >
+                <Text style={globalStyle.buttonText}> Write a Review </Text>
+        </TouchableOpacity>
         <FlatList
+            style={globalStyle.flatlist}
             data={this.state.location.location_reviews}
             renderItem={({item}) =>
             <View style = {styles.review}>

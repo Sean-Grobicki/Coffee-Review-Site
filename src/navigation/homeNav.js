@@ -11,8 +11,8 @@ render() {
     return (
     <HomeStack.Navigator>
       <HomeStack.Screen name = "Home" component = {Home} options = {{headerShown: false}}/>
-      <HomeStack.Screen name = "Change Review" component = {ChangeReview}/>
-      <HomeStack.Screen name = "Camera" component = {Camera}/>
+      <HomeStack.Screen name = "Change Review" component = {ChangeReview} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
+      <HomeStack.Screen name = "Camera" component = {Camera} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
     </HomeStack.Navigator>
       );
     }

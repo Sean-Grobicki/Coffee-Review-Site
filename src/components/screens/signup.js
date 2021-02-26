@@ -2,11 +2,14 @@ import React from 'react';
 import {
   View,
   TextInput,
-  Button,
   Alert,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
 } from 'react-native';
 import ValidationComponent from 'react-native-form-validator';
 import { post } from '../../api/apiRequests';
+import globalStyle from '../../styles/globalStyle';
 
 class Signup extends ValidationComponent {
   constructor(props) {
@@ -54,16 +57,34 @@ class Signup extends ValidationComponent {
 
   render() {
     return (
-      <View>
-        <TextInput placeholder="Enter First Name" onChangeText={(fName) => this.setState({ firstName: fName })} />
-        <TextInput placeholder="Enter Last Name" onChangeText={(lName) => this.setState({ lastName: lName })} />
-        <TextInput placeholder="Enter Email" onChangeText={(em) => this.setState({ email: em })} />
-        <TextInput placeholder="Enter Password" onChangeText={(pass) => this.setState({ password: pass })} />
-        <TextInput placeholder="Repeat Password" onChangeText={(rPass) => this.setState({ rPassword: rPass })} />
-        <Button title="Create Account" onPress={() => this.createUser()} />
+      <View style={styles.container}>
+        <TextInput style={styles.text} placeholder="Enter First Name" onChangeText={(fName) => this.setState({ firstName: fName })} />
+        <TextInput style={styles.text} placeholder="Enter Last Name" onChangeText={(lName) => this.setState({ lastName: lName })} />
+        <TextInput style={styles.text} placeholder="Enter Email" onChangeText={(em) => this.setState({ email: em })} />
+        <TextInput style={styles.text} placeholder="Enter Password" onChangeText={(pass) => this.setState({ password: pass })} />
+        <TextInput style={styles.text} placeholder="Repeat Password" onChangeText={(rPass) => this.setState({ rPassword: rPass })} />
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.createUser()}>
+          <Text style={globalStyle.buttonText}> Create Account </Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'ghostwhite',
+  },
+  text:
+  {
+    fontFamily: 'monospace',
+    width: '100%',
+    marginLeft: '55%',
+  },
+});
 
 export default Signup;

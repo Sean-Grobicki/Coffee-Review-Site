@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
   View,
   Text,
   Button,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import { post } from '../../api/apiRequests';
 import { getToken, removeItems } from '../../api/asyncStorage';
+import globalStyle from '../../styles/globalStyle';
 
 class Settings extends Component
 {
@@ -37,15 +39,27 @@ class Settings extends Component
   render()
   {
     return (
-      <View>
-        <Text>Settings</Text>
-        <Button title = "Change Settings" onPress = {() => this.props.navigation.navigate('ChangeInfo')}></Button>
-        <Button title = "Logout" onPress = {() => this.logout()}></Button>
+      <View style={styles.container}>
+        <Text style={globalStyle.title}>Settings</Text>
+        <TouchableOpacity style={globalStyle.button} onPress = {() => this.props.navigation.navigate('Change Information')} >
+          <Text style={globalStyle.buttonText}> Change Settings </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.changeReview()} >
+          <Text style={globalStyle.buttonText}> Logout </Text>
+        </TouchableOpacity>
       </View>
     );
-
   }
-
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'ghostwhite',
+  },
+});
 
 export default Settings;

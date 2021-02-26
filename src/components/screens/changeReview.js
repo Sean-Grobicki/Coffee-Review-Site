@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import {
-  Text, View, Button, Alert,
+  Text, ScrollView, Alert, StyleSheet
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ValidationComponent from 'react-native-form-validator';
 import Icon from 'react-native-vector-icons/Feather';
 import { remove, patch} from '../../api/apiRequests';
 import { getToken } from '../../api/asyncStorage';
+import globalStyle from '../../styles/globalStyle';
+import Review from '../shared/review';
+
 class ChangeReview extends ValidationComponent {
   constructor(props) {
     super(props);
@@ -152,23 +155,42 @@ class ChangeReview extends ValidationComponent {
       { label: '5', value: 5 },
     ];
     return (
-      <View>
-        <Text> Overall Rating: </Text>
-        <DropDownPicker defaultValue={this.state.review.overall_rating} placeholder="Enter Overall Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ ovrRating: item.value })} />
-        <Text> Price Rating: </Text>
-        <DropDownPicker defaultValue={this.state.review.price_rating} placeholder="Enter Price Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
-        <Text> Quality Rating: </Text>
-        <DropDownPicker defaultValue={this.state.review.quality_rating} placeholder="Enter Quality Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
-        <Text> Cleanlieness Rating: </Text>
-        <DropDownPicker defaultValue={this.state.review.clenliness_rating} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
-        <TextInput placeholder="Enter your comments: " defaultValue={this.state.review.review_body} onChangeText={(com) => this.setState({ comment: com })} />
-        <Button title="Change Review" onPress={() => this.changeReview()} />
-        <Button title="Delete Review" onPress={() => this.confirmDeleteRev()} />
-        <Button title="Add Picture" onPress={() => this.takePicture()} />
-        <Button title="Delete Picture" onPress={() => this.confirmDeletePic()} />
-      </View>
+      <ScrollView style={styles.container}>
+        <Text style={globalStyle.title}> Current Review </Text>
+        <Review review={this.state.review} />
+        <Text style={globalStyle.title}> Changed Review </Text>
+        <Text style={globalStyle.text}> Overall Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} defaultValue={this.state.review.overall_rating} placeholder="Enter Overall Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ ovrRating: item.value })} />
+        <Text style={globalStyle.text}> Price Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} defaultValue={this.state.review.price_rating} placeholder="Enter Price Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
+        <Text style={globalStyle.text}> Quality Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} defaultValue={this.state.review.quality_rating} placeholder="Enter Quality Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
+        <Text style={globalStyle.text}> Cleanlieness Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} defaultValue={this.state.review.clenliness_rating} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
+        <Text style={globalStyle.text}> Comment: </Text>
+        <TextInput style={globalStyle.text} defaultValue={this.state.review.review_body} onChangeText={(com) => this.setState({ comment: com })} />
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.takePicture()}>
+          <Text style={globalStyle.buttonText}> Add Picture </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.confirmDeletePic()}>
+          <Text style={globalStyle.buttonText}> Delete Picture </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.confirmDeleteRev()} >
+          <Text style={globalStyle.buttonText}> Delete Review </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={globalStyle.button} onPress={() => this.changeReview()} >
+          <Text style={globalStyle.buttonText}> Submit Changes </Text>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container:
+  {
+    backgroundColor: 'ghostwhite',
+  },
+});
 
 export default ChangeReview;

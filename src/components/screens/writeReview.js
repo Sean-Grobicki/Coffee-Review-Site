@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import {
   View,
   Button,
+  StyleSheet,
   Text,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import { post } from '../../api/apiRequests';
 import { getToken } from '../../api/asyncStorage';
+import globalStyle from '../../styles/globalStyle';
 
 class WriteReview extends Component {
   constructor(props) {
@@ -63,20 +66,46 @@ class WriteReview extends Component {
       { label: '5', value: 5 },
     ];
     return (
-      <View>
-        <Text> Overall Rating: </Text>
-        <DropDownPicker placeholder="Enter Overall Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ ovrRating: item.value })} />
-        <Text> Price Rating: </Text>
-        <DropDownPicker placeholder="Enter Price Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
-        <Text> Quality Rating: </Text>
-        <DropDownPicker placeholder="Enter Quality Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
-        <Text> Cleanlieness Rating: </Text>
-        <DropDownPicker placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40 }} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
-        <TextInput placeholder="Enter your comments: " onChangeText={(com) => this.setState({ comment: com })} />
-        <Button title="Finish Review" onPress={() => this.sendReview()} />
+      <View style ={styles.container}>
+        <Text style={globalStyle.text}> Overall Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Overall Rating: " containerStyle={{ height: 40, width: '100%' }} items={pickerList} onChangeItem={(item) => this.setState({ ovrRating: item.value })} />
+        <Text style={globalStyle.text}> Price Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Price Rating: " containerStyle={{ height: 40, width: '100%'  }} items={pickerList} onChangeItem={(item) => this.setState({ priceRating: item.value })} />
+        <Text style={globalStyle.text}> Quality Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Quality Rating: " containerStyle={{ height: 40, width: '100%'}} items={pickerList} onChangeItem={(item) => this.setState({ qualRating: item.value })} />
+        <Text style={globalStyle.text}> Cleanlieness Rating: </Text>
+        <DropDownPicker globalTextStyle={globalStyle.text} placeholder="Enter Cleanlieness Rating: " containerStyle={{ height: 40, width: '100%'}} items={pickerList} onChangeItem={(item) => this.setState({ clenRating: item.value })} />
+        <TextInput style={styles.comment} placeholder="Enter your comments: " onChangeText={(com) => this.setState({ comment: com })} />
+        <TouchableOpacity style={styles.button} onPress={() => this.sendReview()} >
+          <Text style={globalStyle.buttonText}> Finish Review </Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    backgroundColor: 'ghostwhite',
+  },
+  button:
+  {
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: 'black',
+    padding: '2%',
+    borderRadius: 5,
+    margin: '5%',
+  },
+  comment:
+  {
+    fontFamily: 'monospace',
+    width: '100%',
+  },
+});
 
 export default WriteReview;

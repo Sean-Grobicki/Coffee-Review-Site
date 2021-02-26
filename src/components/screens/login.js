@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   TouchableOpacity,
   Text,
   Alert,
-  StatusBar,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { storeData } from '../../api/asyncStorage';
 import { post } from '../../api/apiRequests';
+import globalStyle from '../../styles/globalStyle';
 
 class Login extends Component
 {
@@ -46,13 +44,13 @@ class Login extends Component
   {
     return (
       <View style = {styles.container}>
-        <TextInput style = {styles.inputs} placeholder = "Enter your email" onChangeText = {(email) => this.setState({email:email})}/>
-        <TextInput style = {styles.inputs} secureTextEntry = {true} placeholder = "Enter your password" onChangeText = {(pword) => this.setState({password:pword})}/>
-        <TouchableOpacity style = {styles.buttons} onPress = {() => this.login()}>
-          <Text>Login</Text>
+        <TextInput style = {styles.input} placeholder = "Enter your email" onChangeText = {(email) => this.setState({email:email})}/>
+        <TextInput style = {styles.input} secureTextEntry = {true} placeholder = "Enter your password" onChangeText = {(pword) => this.setState({password:pword})}/>
+        <TouchableOpacity style = {globalStyle.button} onPress = {() => this.login()}>
+          <Text style={globalStyle.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style = {styles.buttons} onPress = {() => this.props.navigation.navigate('Signup')}>
-          <Text>Create New Account</Text>
+        <TouchableOpacity style = {globalStyle.button} onPress = {() => this.props.navigation.navigate('Signup')}>
+          <Text style={globalStyle.buttonText}>Create New Account</Text>
         </TouchableOpacity>
       </View>
     );
@@ -69,20 +67,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
-  },  
-  inputs:
-  {
-
+    alignItems: 'center',
   },
-  buttons:
+  input:
   {
-    borderWidth: 2,
-    borderColor: 'black',
-    padding: '2%',
-    borderRadius: 5,
-    margin: '5%',
+    marginLeft: '25%',
+    alignSelf: 'flex-start',
+    fontFamily: 'monospace',
+    width: '100%',
   },
-
 });
 

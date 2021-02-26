@@ -23,8 +23,8 @@ class LoginNav extends Component
     return (
       <NavigationContainer>
         <LoginStack.Navigator>
-          <LoginStack.Screen name = "Login" component = {Login}/>
-          <LoginStack.Screen name = "Signup" component = {Signup}/>
+          <LoginStack.Screen name = "Login" component = {Login} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
+          <LoginStack.Screen name = "Signup" component = {Signup} options={{headerTitleStyle: {fontFamily: 'monospace'}}}/>
           <LoginStack.Screen options = {{headerShown: false}} name = "Home" component = {MainNav}/>
         </LoginStack.Navigator>
       </NavigationContainer>
