@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  StyleSheet,
   Alert,
   ActivityIndicator,
 } from 'react-native';
@@ -19,6 +18,9 @@ class Favourite extends Component {
     this.state = {
       isLoading: true,
       locations: '',
+      page: 0,
+      toShow: [],
+      pageNumbers: [],
     };
   }
 
@@ -39,8 +41,8 @@ class Favourite extends Component {
     const headers = { 'X-Authorization': token, 'Content-Type': 'application/json' };
     const response = await get(route, headers);
     if (response.code === 200) {
-      // Add something with activity indicator
-      this.setState({ isLoading: false,locations: response.data });
+      this.setState({ isLoading: false, locations: response.data });
+      this.createPages();
     } else if (response.code === 400) {
       Alert.alert('A bad request was sent to the server');
     } else if (response.code === 401) {
@@ -48,6 +50,32 @@ class Favourite extends Component {
     } else {
       Alert.alert('Server Error');
     }
+  }
+
+  createPages() {
+    let pages = [];
+    let pageCount = 0;
+    const locations = this.state.locations;
+    for (let i = 1; i <= locations.length; i ++) {
+      if (i % 3 === 0) {
+        pages[pageCount] = [locations[i - 3], locations[i - 2], locations[i - 1]];
+        pageCount = pageCount + 1;
+      }
+      if (i === locations.length) {
+        const num = i % 3;
+        if (num === 2) {
+          pages[pageCount] = [locations[i - 2], locations[i - 1]];
+        } else {
+          pages[pageCount] = [locations[i - 1]];
+        }
+        pageCount += 1;
+      }
+    }
+    let pageNumbers = [];
+    for (let number = 0; number < pages.length; number++) {
+      pageNumbers[number] = number;
+    }
+    this.setState({toShow: pages, pageNumbers: pageNumbers});
   }
 
   goLocation(id) {
@@ -62,7 +90,7 @@ class Favourite extends Component {
       <View style={globalStyle.con}>
         <Text style={globalStyle.title}> Your Favourites </Text>
         <FlatList
-          data={this.state.locations}
+          data={this.state.toShow[this.state.page]}
           renderItem={({ item }) => (
             <View>
               <ShowLocation
@@ -75,6 +103,18 @@ class Favourite extends Component {
             </View>
           )}
           keyExtractor={(item) => item.location_id.toString()}
+        />
+        <FlatList
+          contentContainerStyle={globalStyle.pages}
+          data={this.state.pageNumbers}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={globalStyle.pageButtons} onPress={() => this.setState({page: item})}>
+              <Text style={globalStyle.pageText}>
+                Page {item + 1}
+              </Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.toString()}
         />
       </View>
     );

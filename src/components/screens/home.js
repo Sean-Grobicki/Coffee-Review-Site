@@ -70,9 +70,22 @@ class Home extends Component {
     let pages = [];
     let pageCount = 0;
     const reviews = this.state.user.reviews;
-    for (let i = 0; i < reviews.length; i += 3) {
-      pages[pageCount] = [ reviews[i + 2], reviews[i + 1], reviews[i]] ;
-      pageCount = pageCount + 1;
+    for (let i = 1; i <= reviews.length; i ++) {
+      if (i % 3 === 0) {
+        pages[pageCount] = [reviews[i - 3], reviews[i - 2], reviews[i - 1]];
+        pageCount = pageCount + 1;
+      }
+      console.log(i);
+      if (i === reviews.length) {
+        console.log(i);
+        const num = i % 3;
+        if (num === 2) {
+          pages[pageCount] = [reviews[i - 2], reviews[i - 1]];
+        } else {
+          pages[pageCount] = [reviews[i - 1]];
+        }
+        pageCount += 1;
+      }
     }
     let pageNumbers = [];
     for (let number = 0; number < pages.length; number++) {
@@ -90,6 +103,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.state.toShow);
     if (this.state.isLoading) {
       return <ActivityIndicator />;
     }

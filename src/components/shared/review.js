@@ -41,6 +41,7 @@ class Review extends Component
     else {
       Alert.alert('Server error');
     }
+    //Can't get the image from the server but the image is stored and there is a gap so it is only 1 endpoint that hasn't been implemented.
   }
 
   async likeUnlike() {
@@ -109,7 +110,7 @@ class Review extends Component
     } else {
     return(
       <View style={styles.container}>
-          <Image style={styles.image} source={this.state.image}/>
+          <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + this.state.image.toString()}}/>
           <View style={styles.ratingsCon}>
             <Text style={globalStyle.text}> Overall Rating </Text>
             <Rating startingValue={this.props.review.overall_rating} ratingCount={5} imageSize={20} type='custom' ratingColor='red' tintColor='ghostwhite' readonly={true} />

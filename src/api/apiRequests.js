@@ -1,4 +1,4 @@
-const { ImageBase } = require("react-native");
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const SERVERURL = 'http://10.0.2.2:3333/api/1.0.0';
 
@@ -96,7 +96,7 @@ const getImage = async(route, header) => {
       const statusCode = response.status;
       let con;
       return response.blob().then((blob) => {
-        con = URL.createObjectURL(blob);
+        con = blob;
         return { code: statusCode, data: con };
       }).catch(() => {
         return { code: statusCode };
